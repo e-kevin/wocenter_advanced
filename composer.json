@@ -1,0 +1,43 @@
+{
+    "name": "wonail/wocenter-advanced",
+    "description": "一款基于wocenter扩展的高级项目模板，项目集成人事管理、安全管理、扩展中心、系统管理、运营管理等多个模块",
+    "keywords": [
+        "yii2",
+        "wocenter",
+        "wonail"
+    ],
+    "authors": [
+        {
+            "name": "E-Kevin",
+            "email": "e-kevin@qq.com"
+        }
+    ],
+    "type": "project",
+    "license": "BSD-3-Clause",
+    "homepage": "https://github.com/Wonail/wocenter-advanced",
+    "require": {
+        "yiisoft/yii2-bootstrap": "*",
+        "yiisoft/yii2-swiftmailer": "*",
+        "wonail/wocenter": "dev-master"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "*",
+        "yiisoft/yii2-gii": "*",
+        "yiisoft/yii2-faker": "*",
+        "yiisoft/yii2-apidoc": "*",
+        "codeception/base": "^2.2.3",
+        "codeception/verify": "~0.3.1"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "installer-paths": {
+                "npm-asset-library": "vendor/npm",
+                "bower-asset-library": "vendor/bower"
+            }
+        }
+    },
+    "scripts": {
+        "post-install-cmd": "php init --env=Development --overwrite=n"
+    }
+}
