@@ -30,3 +30,6 @@ phpunit.phar
 
 # vagrant runtime
 /.vagrant
+
+# wocenter installed lock file
+/common/install.lock

@@ -18,6 +18,7 @@ info "Provision-script user: `whoami`"
 
 info "Configure composer"
 composer config --global github-oauth.github.com ${github_token}
+composer config --global repo.packagist composer https://packagist.phpcomposer.com
 echo "Done!"
 
 info "Install plugins for composer"
@@ -25,14 +26,13 @@ composer global require "fxp/composer-asset-plugin:^1.3.1" --no-progress
 
 info "Install project dependencies"
 cd /app
-composer --no-progress --prefer-dist install
+composer --no-progress --prefer-dist install -vvv
 
 info "Init project"
 ./init --env=Development --overwrite=y
 
-info "Apply migrations"
-./yii migrate --interactive=0
-./yii_test migrate --interactive=0
+info "Install WoCenter"
+./yii wocenter/install --interactive=0
 
 info "Create bash-alias 'app' for vagrant user"
 echo 'alias app="cd /app"' | tee /home/vagrant/.bash_aliases

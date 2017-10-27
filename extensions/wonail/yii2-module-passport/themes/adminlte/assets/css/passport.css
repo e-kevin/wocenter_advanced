@@ -1,0 +1,5 @@
+.login-box{width:500px}
+@media (max-width: 768px){.login-box{width: 90%;}}
+.login-box input{background: none}
+.login-box-body{background: none}
+.login-box-body .nav-tabs-custom{background: none;box-shadow: none;margin-bottom: 0;}

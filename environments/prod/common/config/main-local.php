@@ -3,7 +3,7 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=wocenter',
+            'dsn' => 'mysql:host=localhost;dbname=wocenter_advanced',
             'username' => 'root',
             'password' => '',
             'charset' => 'utf8',

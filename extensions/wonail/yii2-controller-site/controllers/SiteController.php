@@ -1,5 +1,6 @@
 <?php
-namespace backend\controllers;
+
+namespace wocenter\backend\controllers\site\controllers;
 
 use wocenter\core\Controller;
 
@@ -10,7 +11,7 @@ use wocenter\core\Controller;
  */
 class SiteController extends Controller
 {
-
+    
     /**
      * @inheritdoc
      */
@@ -33,15 +34,16 @@ class SiteController extends Controller
             ],
         ];
     }
-
-    public function actionIndex()
+    
+    /**
+     * @inheritdoc
+     */
+    public function dispatches()
     {
-        return $this->display();
+        return [
+            'index',
+            'error',
+        ];
     }
-
-    public function actionError()
-    {
-        return $this->runDispatch();
-    }
-
+    
 }

@@ -13,7 +13,6 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => [
         'log',
-        'passport'
     ],
     'components' => [
         'request' => [

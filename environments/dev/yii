@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+use wocenter\Wc;
+
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 
@@ -17,6 +19,7 @@ require(__DIR__ . '/common/config/bootstrap.php');
 require(__DIR__ . '/console/config/bootstrap.php');
 
 $config = yii\helpers\ArrayHelper::merge(
+    require(__DIR__ . '/vendor/wonail/wocenter/config/main.php'),
     require(__DIR__ . '/common/config/main.php'),
     require(__DIR__ . '/common/config/main-local.php'),
     require(__DIR__ . '/console/config/main.php'),
@@ -24,5 +27,7 @@ $config = yii\helpers\ArrayHelper::merge(
 );
 
 $application = new yii\console\Application($config);
+Yii::$container->get('Wc');
+Wc::$service->getExtension()->getLoad()->loadAliases();
 $exitCode = $application->run();
 exit($exitCode);
