@@ -1,6 +1,6 @@
 <?php
 
-namespace wocenter\backend\themes\adminlte\dispatches\passport\security;
+namespace wocenter\backend\modules\passport\themes\adminlte\dispatches\security;
 
 use wocenter\backend\themes\adminlte\components\Dispatch;
 use Yii;
