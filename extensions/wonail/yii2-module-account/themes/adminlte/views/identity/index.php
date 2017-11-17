@@ -2,12 +2,11 @@
 use kartik\grid\BooleanColumn;
 use wonail\adminlte\grid\ActionColumn;
 use wonail\adminlte\grid\GridView;
-use wocenter\grid\DateTimeColumn;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel wocenter\backend\modules\account\models\IdentitySearch */
-/* @var $dataProvider wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider backend\core\ActiveDataProvider */
 
 $headerToolbar = '';
 ?>

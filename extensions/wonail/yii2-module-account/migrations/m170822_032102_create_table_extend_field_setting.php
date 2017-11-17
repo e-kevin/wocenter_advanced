@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\Migration;
+use wocenter\console\controllers\wocenter\Migration;
 
 class m170822_032102_create_table_extend_field_setting extends Migration
 {

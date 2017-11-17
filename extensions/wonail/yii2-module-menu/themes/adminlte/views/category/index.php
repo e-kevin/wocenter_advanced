@@ -5,7 +5,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \wocenter\backend\modules\menu\models\MenuCategorySearch */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 
 $headerToolbar = '';
 $toolbars = '';

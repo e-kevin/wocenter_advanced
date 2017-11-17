@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\Migration;
+use wocenter\console\controllers\wocenter\Migration;
 
 class m170822_065827_create_table_rank_user extends Migration
 {

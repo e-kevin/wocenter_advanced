@@ -1,6 +1,6 @@
 {
     "name": "wonail/wocenter_advanced",
-    "description": "一款基于wocenter扩展的高级项目模板，项目集成人事管理、安全管理、扩展中心、系统管理、运营管理等多个模块",
+    "description": "基于WoCenter开发的一款优秀的高度可扩展的高级项目模板，项目集成人事管理、安全管理、扩展中心、系统管理、运营管理等多个模块",
     "keywords": [
         "yii2",
         "wocenter",
@@ -16,7 +16,15 @@
     "license": "BSD-3-Clause",
     "homepage": "https://github.com/Wonail/wocenter_advanced",
     "require": {
-        "wonail/wocenter": "dev-master"
+        "wonail/wocenter": "dev-master",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0",
+        "kartik-v/yii2-widget-select2": "@dev",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-dialog": "@dev",
+        "wonail/yii2-adminlte": "~0.1.3",
+        "wonail/yii2-widget-nestable": "~1.2",
+        "wonail/yii2-markdown": "~0.1.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "*",

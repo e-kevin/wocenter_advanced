@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\Migration;
+use wocenter\console\controllers\wocenter\Migration;
 
 class m170822_065816_create_table_notify_node extends Migration
 {

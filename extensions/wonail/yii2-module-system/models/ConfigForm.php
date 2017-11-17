@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\system\models;
 
-use wocenter\backend\core\Model;
+use backend\core\Model;
 use wocenter\traits\ParseRulesTrait;
 use Yii;
 use yii\base\InvalidConfigException;

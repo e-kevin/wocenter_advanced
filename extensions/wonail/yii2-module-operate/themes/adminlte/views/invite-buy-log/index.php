@@ -6,7 +6,7 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \wocenter\backend\modules\operate\models\InviteBuyLogSearch */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 
 $headerToolbar = '';
 $actionBtn = '';

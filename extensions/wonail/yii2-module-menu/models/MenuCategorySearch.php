@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\menu\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 
 /**
  * MenuCategorySearch represents the model behind the search form about

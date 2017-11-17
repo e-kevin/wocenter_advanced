@@ -4,7 +4,7 @@ use wonail\adminlte\grid\GridView;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 /* @var $category integer 所属分类ID */
 /* @var $pid integer */
 /* @var $breadcrumbs array 面包屑导航 */

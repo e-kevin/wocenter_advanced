@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\account\models;
 
-use wocenter\backend\core\Model;
+use backend\core\Model;
 use yii\base\InvalidConfigException;
 
 /**

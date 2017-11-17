@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\account\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\libs\Constants;
 use wocenter\backend\modules\passport\models\PassportForm;
 use yii\base\InvalidParamException;

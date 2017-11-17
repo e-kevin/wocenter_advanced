@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\Migration;
+use wocenter\console\controllers\wocenter\Migration;
 
 class m170925_023208_create_table_module_function extends Migration
 {
@@ -20,6 +20,7 @@ class m170925_023208_create_table_module_function extends Migration
         $this->batchInsert('{{%viMJHk_module_function}}', ['id', 'app', 'module_id', 'controller_id', 'is_system', 'status'], [
             ['03eedf833c61cf1f35512e4990046ebc', 'backend', '', 'site', 1, 1],
             ['6d3a8837476a027562c30694aba27917', 'frontend', '', 'site', 1, 1],
+            ['740817e23bec63571d2217631ff01b65', 'console', '', 'wocenter', 1, 1],
         ]);
 
         $this->createIndex('idx-viMJHk_module_function-app', '{{%viMJHk_module_function}}', 'app');

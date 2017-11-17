@@ -2,9 +2,9 @@
 
 namespace wocenter\backend\modules\operate\controllers;
 
-use wocenter\backend\actions\DeleteOne;
-use wocenter\backend\actions\MultipleDelete;
-use wocenter\backend\core\Controller;
+use wocenter\actions\DeleteOne;
+use wocenter\actions\MultipleDelete;
+use backend\core\Controller;
 use wocenter\backend\modules\operate\models\Invite;
 use yii\filters\VerbFilter;
 

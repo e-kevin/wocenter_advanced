@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\Migration;
+use wocenter\console\controllers\wocenter\Migration;
 
 class m170822_065628_create_table_menu extends Migration
 {
@@ -13,7 +13,7 @@ class m170822_065628_create_table_menu extends Migration
             'name' => $this->string(64)->notNull()->comment('名称'),
             'alias_name' => $this->string(64)->notNull()->comment('菜单别名'),
             'url' => $this->string(512)->notNull()->comment('菜单路由地址'),
-            'params' => $this->string(200)->notNull()->comment('URL参数'),
+            'params' => $this->string(200)->comment('URL参数'),
             'target' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('打开方式0:_self 1:_blank'),
             'description' => $this->string(512)->notNull()->comment('描述'),
             'status' => $this->boolean()->notNull()->unsigned()->defaultValue(1)->comment('状态'),

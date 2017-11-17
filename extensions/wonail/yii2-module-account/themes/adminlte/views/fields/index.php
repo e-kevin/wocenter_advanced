@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \wocenter\backend\modules\account\models\ExtendFieldSettingSearch */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 /* @var $profileId integer */
 /* @var $profileName string */
 /* @var $formTypeList array */

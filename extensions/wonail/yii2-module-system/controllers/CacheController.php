@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\system\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 
 /**
  * Class CacheController
@@ -17,7 +17,7 @@ class CacheController extends Controller
     {
         return [
             'flushCache' => [
-                'class' => 'wocenter\backend\actions\FlushCache',
+                'class' => 'wocenter\actions\FlushCache',
             ],
         ];
     }

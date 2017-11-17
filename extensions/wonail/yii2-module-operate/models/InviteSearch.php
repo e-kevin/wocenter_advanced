@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\operate\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\libs\Constants;
 use yii\db\ActiveQuery;
 

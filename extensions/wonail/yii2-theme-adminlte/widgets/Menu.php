@@ -19,7 +19,7 @@ class Menu extends \wonail\adminlte\widgets\Menu
     /**
      * @var string 菜单数据里显示菜单名称的字段
      */
-    public $labelField = 'alias_name';
+    public $labelField = 'name';
     
     /**
      * @var string 菜单数据里二级菜单的键名

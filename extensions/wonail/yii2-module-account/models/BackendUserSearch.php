@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\account\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\backend\modules\account\models\BaseUser;
 use yii\db\ActiveQuery;
 

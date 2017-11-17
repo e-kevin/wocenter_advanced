@@ -1,5 +1,5 @@
 <?php
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\backend\modules\log\models\ActionLogSearch;
 use wocenter\Wc;
 use wonail\adminlte\grid\GridView;

@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\system\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 
 /**
  * Class SettingController

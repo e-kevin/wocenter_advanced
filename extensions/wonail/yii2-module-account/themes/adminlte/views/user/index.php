@@ -1,7 +1,7 @@
 <?php
 use wonail\adminlte\grid\GridView;
 use wocenter\libs\Constants;
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\helpers\DateTimeHelper;
 use wocenter\backend\modules\account\models\BaseUser;
 use \wocenter\backend\modules\account\models\UserSearch;

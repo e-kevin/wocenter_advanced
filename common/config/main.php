@@ -1,6 +1,11 @@
 <?php
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
+    'container' => [
+        'definitions' => [
+            'Wc' => 'wocenter\Wc',
+        ],
+    ],
     'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -8,6 +13,13 @@ return [
         'schemaCache' => [
             'class' => 'yii\caching\FileCache',
             'keyPrefix' => 'scheme_', //统一缓存目录管理缓存文件,如果注释此设置,缓存文件则会自动分配至不同文件夹里
+        ],
+        'commonCache' => [
+            'class' => 'yii\caching\FileCache',
+            'cachePath' => '@common/runtime/cache',
+        ],
+        'bootstrap' => [
+            'class' => 'wocenter\backend\modules\extension\Bootstrap',
         ],
 //        'session' => [
 //            // 如果需要数据库存取$_SESSION会话数据，请自行安装该数据库迁移[[\yii\db\Migration\m160313_153426_session_init]]

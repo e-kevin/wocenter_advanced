@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\action\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\libs\Constants;
 
 /**

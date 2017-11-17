@@ -1,7 +1,7 @@
 <?php
 namespace wocenter\backend\modules\operate\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 
 /**
  * RankSearch represents the model behind the search form about `wocenter\backend\modules\operate\models\Rank`.

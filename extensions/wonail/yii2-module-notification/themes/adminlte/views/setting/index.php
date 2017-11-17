@@ -1,5 +1,5 @@
 <?php
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\backend\modules\notification\models\NotifySearch;
 use wocenter\Wc;
 use wonail\adminlte\grid\GridView;

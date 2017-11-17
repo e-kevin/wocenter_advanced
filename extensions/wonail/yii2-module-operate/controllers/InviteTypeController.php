@@ -2,8 +2,8 @@
 
 namespace wocenter\backend\modules\operate\controllers;
 
-use wocenter\backend\actions\DeleteOne;
-use wocenter\backend\core\Controller;
+use wocenter\actions\DeleteOne;
+use backend\core\Controller;
 use wocenter\backend\modules\operate\models\InviteType;
 use yii\filters\VerbFilter;
 

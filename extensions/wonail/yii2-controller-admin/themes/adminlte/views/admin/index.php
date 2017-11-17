@@ -1,7 +1,7 @@
 <?php
 use wonail\adminlte\grid\GridView;
 use wocenter\libs\Constants;
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\helpers\DateTimeHelper;
 use yii\helpers\Html;
 use yii\web\View;

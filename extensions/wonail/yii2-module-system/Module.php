@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\system;
 
-use wocenter\backend\core\Modularity;
+use backend\core\Modularity;
 
 class Module extends Modularity
 {

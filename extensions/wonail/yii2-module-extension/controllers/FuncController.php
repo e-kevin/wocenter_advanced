@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\extension\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 use yii\filters\VerbFilter;
 
 class FuncController extends Controller

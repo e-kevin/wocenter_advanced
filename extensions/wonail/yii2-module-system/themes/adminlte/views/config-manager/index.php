@@ -1,5 +1,5 @@
 <?php
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 use wocenter\backend\modules\system\models\ConfigSearch;
 use wonail\adminlte\grid\GridView;
 use yii\helpers\Html;

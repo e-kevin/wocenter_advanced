@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\data\models;
 
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 
 /**
  * AreaRegionSearch represents the model behind the search form about `wocenter\backend\modules\data\models\AreaRegion`.

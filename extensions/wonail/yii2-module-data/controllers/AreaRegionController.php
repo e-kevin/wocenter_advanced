@@ -2,8 +2,8 @@
 
 namespace wocenter\backend\modules\data\controllers;
 
-use wocenter\backend\actions\DeleteOne;
-use wocenter\backend\core\Controller;
+use wocenter\actions\DeleteOne;
+use backend\core\Controller;
 use wocenter\backend\modules\data\models\AreaRegion;
 use yii\filters\VerbFilter;
 

@@ -3,7 +3,7 @@
 namespace wocenter\backend\modules\operate\models;
 
 use yii\base\Model;
-use wocenter\backend\core\ActiveDataProvider;
+use backend\core\ActiveDataProvider;
 
 /**
  * InviteBuyLogSearch represents the model behind the search form about

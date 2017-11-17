@@ -2,8 +2,8 @@
 
 namespace wocenter\backend\modules\action\controllers;
 
-use wocenter\backend\actions\DeleteOne;
-use wocenter\backend\core\Controller;
+use wocenter\actions\DeleteOne;
+use backend\core\Controller;
 use wocenter\backend\modules\action\models\ActionLimit;
 
 /**

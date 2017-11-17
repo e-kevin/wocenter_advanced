@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \wocenter\backend\modules\data\models\AreaRegionSearch */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 /* @var $pid integer */
 /* @var $breadcrumbs array 面包屑导航 */
 /* @var $title string 当前面包屑标题 */

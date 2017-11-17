@@ -8,7 +8,7 @@ use yii\helpers\Inflector;
 $controllerName = Inflector::camelize($generator->getDefaultRoute());
 $controllerClass = $generator->getDefaultController()
     ? $generator->getDefaultController()->className()
-    : 'wocenter\backend\core\Controller';
+    : 'backend\core\Controller';
 
 echo "<?php\n";
 ?>

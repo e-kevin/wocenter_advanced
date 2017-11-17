@@ -172,7 +172,7 @@ class Generator extends \yii\gii\Generator
             $useModuleClass = "use {$module->className()} as baseModule;";
         } else {
             $useInfoClass = 'use wocenter\core\ModularityInfo as baseInfo;';
-            $useModuleClass = 'use wocenter\backend\core\Modularity as baseModule;';
+            $useModuleClass = 'use backend\core\Modularity as baseModule;';
         }
         
         $files[] = new CodeFile(

@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\account\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 use wocenter\backend\modules\account\models\BaseUser;
 use yii\filters\VerbFilter;
 

@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\log\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 
 /**
  * ScoreController implements the CRUD actions for UserScoreLog model.

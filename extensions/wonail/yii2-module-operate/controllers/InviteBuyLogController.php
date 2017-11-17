@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\operate\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 
 /**
  * InviteBuyLogController implements the CRUD actions for InviteBuyLog model.

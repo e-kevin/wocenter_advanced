@@ -2,8 +2,8 @@
 
 namespace wocenter\backend\modules\account\controllers;
 
-use wocenter\backend\actions\DeleteOne;
-use wocenter\backend\core\Controller;
+use wocenter\actions\DeleteOne;
+use backend\core\Controller;
 use wocenter\backend\modules\account\models\ExtendProfile;
 use yii\filters\VerbFilter;
 

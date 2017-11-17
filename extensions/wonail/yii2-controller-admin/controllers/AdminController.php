@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\controllers\admin\controllers;
 
-use wocenter\backend\core\Controller;
+use backend\core\Controller;
 use Yii;
 use yii\filters\VerbFilter;
 

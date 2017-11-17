@@ -4,7 +4,7 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel \wocenter\backend\modules\account\models\IdentityGroupSearch */
-/* @var $dataProvider \wocenter\backend\core\ActiveDataProvider */
+/* @var $dataProvider \backend\core\ActiveDataProvider */
 
 $headerToolbar = '';
 ?>
