@@ -1,7 +1,7 @@
 WoCenter Advanced 介绍
 -------------
 
-WoCenter Advanced是基于WoCenter开发的一款优秀的**高度可扩展**的高级项目模板。
+WoCenter Advanced是基于[WoCenter](https://github.com/Wonail/wocenter)开发的一款优秀的**高度可扩展**的高级项目模板。
 
 >   WoCenter Advanced充分利用和发挥了WoCenter的所有特性，基于WoCenter的**扩展机制**，系统默认提供了一套集成用户管理、
 安全管理、扩展中心、系统管理、运营管理等多个扩展模块的后台管理系统以及一套简便的前台展示模板。

@@ -22,7 +22,7 @@ composer config --global repo.packagist composer https://packagist.phpcomposer.c
 echo "Done!"
 
 info "Install plugins for composer"
-composer global require "fxp/composer-asset-plugin:^1.3.1" --no-progress
+composer global require "fxp/composer-asset-plugin:^1.4.2" --no-progress
 
 info "Install project dependencies"
 cd /app
