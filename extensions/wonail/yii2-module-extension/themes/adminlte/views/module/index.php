@@ -81,29 +81,14 @@ if ($this->context->isFullPageLoad()) {
                     'value' => function ($model) {
                         return $model['infoInstance']->isSystem;
                     },
-                    'label' => '系统模块',
-                ],
-                [
-                    'class' => 'kartik\grid\BooleanColumn',
-                    'value' => function ($model) {
-                        return $model['core_module'];
-                    },
-                    'label' => '核心模块',
-                ],
-                [
-                    'class' => 'kartik\grid\BooleanColumn',
-                    'value' => function ($model) {
-                        return $model['developer_module'];
-                    },
-                    'width' => 'auto',
-                    'label' => '开发者模块',
+                    'label' => '系统扩展',
                 ],
                 [
                     'format' => 'html',
                     'label' => '运行模块',
                     'value' => function ($model) use ($runModuleList) {
                         switch ($model['run']) {
-                            case Module::RUN_MODULE_CORE:
+                            case Module::RUN_MODULE_EXTENSION:
                                 return '<span class="text-danger">' . $runModuleList[$model['run']] . '</span>';
                                 break;
                             case Module::RUN_MODULE_DEVELOPER:

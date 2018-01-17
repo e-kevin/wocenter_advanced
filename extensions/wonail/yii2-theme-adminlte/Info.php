@@ -20,7 +20,7 @@ class Info extends ThemeInfo
     /**
      * @inheritdoc
      */
-    public $name = 'AdminLTE主题';
+    public $name = 'AdminLTE2';
     
     /**
      * @inheritdoc
@@ -30,11 +30,20 @@ class Info extends ThemeInfo
     /**
      * @inheritdoc
      */
+    public $dispatch = '\wocenter\backend\themes\adminlte\components\Dispatch';
+    
+    /**
+     * @inheritdoc
+     */
     public $isSystem = true;
     
     /**
      * @inheritdoc
      */
-    public $dispatch = '\wocenter\backend\themes\adminlte\components\Dispatch';
+    protected $depends = [
+        'wonail/yii2-module-system:dev-master',
+        'wonail/yii2-module-extension:dev-master',
+        'wonail/yii2-module-menu:dev-master',
+    ];
     
 }

@@ -1,15 +1,23 @@
 <?php
+
 use wocenter\Wc;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 // 用户信息
-$userInfo = Wc::$service->getAccount()->queryUser(['uid', 'username', 'nickname', 'realname', 'signature'], Yii::$app->getUser()->id);
+if (Yii::$app->hasModule('passport')) {
+    $userInfo = Wc::$service->getAccount()->queryUser(['uid', 'username', 'nickname', 'realname', 'signature'], Yii::$app->getUser()->id);
+} else {
+    $userInfo = [
+        'username' => 'N/A',
+        'signature' => 'N/A',
+    ];
+}
 ?>
 
 <header class="main-header">
-
+    
     <?= Html::a('<span class="logo-mini">WC</span>
     <span class="logo-lg">' . Yii::t('wocenter/app', Yii::$app->name) . '</span>',
         Yii::$app->homeUrl, ['class' => 'logo', 'data-pjax' => 1]) ?>
@@ -260,16 +268,18 @@ $userInfo = Wc::$service->getAccount()->queryUser(['uid', 'username', 'nickname'
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
-                            <div class="pull-left">
-                                <?= yii\bootstrap\Html::a('个人资料', ['/account/user/profile'], ['class' => 'btn btn-default btn-flat', 'data-pjax' => 1]) ?>
-                            </div>
-                            <div class="pull-right">
-                                <?=
-                                Html::a(
-                                    '退 出', ['/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']
-                                )
-                                ?>
-                            </div>
+                            <?php if (Yii::$app->hasModule('passport')): ?>
+                                <div class="pull-left">
+                                    <?= Html::a('个人资料', ['/account/user/profile'], ['class' => 'btn btn-default btn-flat', 'data-pjax' => 1]) ?>
+                                </div>
+                                <div class="pull-right">
+                                    <?= Html::a('退 出', ['/logout'], ['data-method' => 'post', 'class' => 'btn btn-default btn-flat']) ?>
+                                </div>
+                            <?php else: ?>
+                                <div class="text-muted text-center">
+                                    请安装通行证模块扩展
+                                </div>
+                            <?php endif; ?>
                         </li>
                     </ul>
                 </li>

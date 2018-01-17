@@ -10,12 +10,17 @@ use yii\helpers\Html;
 /* @var $header string */
 /* @var $status boolean */
 
-if ($is_guest = Yii::$app->getUser()->getIsGuest()) {
-    $this->context->layout = '/dispatch';
-    $padding_top = 'padding-top: 100px';
+if (Yii::$app->hasModule('passport')) {
+    $is_guest = Yii::$app->getUser()->getIsGuest();
 } else {
-    $padding_top = 'padding-top: 50px';
+    $is_guest = true;
 }
+if (Yii::$app->getErrorHandler()->exception === null) {
+    if ($is_guest) {
+        $this->context->layout = '/dispatch';
+    }
+}
+$padding_top = 'padding-top: 50px';
 DispatchAsset::register($this);
 $this->title = Yii::t('wocenter/app', 'Message prompt');
 $this->params['dispatchView'] = true;
@@ -38,11 +43,18 @@ $this->params['dispatchView'] = true;
             <div class="row">
                 <div class="col-md-6">
                     <?php
-                    if ($is_guest) {
-                        echo Html::a(Yii::t('wocenter/app', 'Login again'), Yii::$app->getUser()->loginUrl, [
-                            'class' => 'btn btn-success btn-block',
-                            'data-pjax' => true,
-                        ]);
+                    if (Yii::$app->hasModule('passport')) {
+                        if ($is_guest) {
+                            echo Html::a(Yii::t('wocenter/app', 'Login again'), Yii::$app->getUser()->loginUrl, [
+                                'class' => 'btn btn-success btn-block',
+                                'data-pjax' => true,
+                            ]);
+                        } else {
+                            echo Html::a(Yii::t('wocenter/app', 'Return home'), ['/'], [
+                                'class' => 'btn btn-success btn-block',
+                                'data-pjax' => true,
+                            ]);
+                        }
                     } else {
                         echo Html::a(Yii::t('wocenter/app', 'Return home'), ['/'], [
                             'class' => 'btn btn-success btn-block',

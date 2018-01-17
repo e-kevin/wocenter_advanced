@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\controllers\wocenter\Migration;
+use wocenter\db\Migration;
 
 class m170925_023208_create_table_module_function extends Migration
 {
@@ -8,7 +8,7 @@ class m170925_023208_create_table_module_function extends Migration
     {
         $this->createTable('{{%viMJHk_module_function}}', [
             'id' => $this->string(64)->notNull()->comment('扩展ID'),
-            'app' => $this->char(15)->notNull()->comment('所属应用'),
+            'extension_name' => $this->char(255)->notNull()->comment('扩展名称'),
             'module_id' => $this->char(15)->notNull()->comment('模块ID'),
             'controller_id' => $this->char(64)->notNull()->comment('控制器ID'),
             'is_system' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('系统扩展 0:否 1:是'),
@@ -17,13 +17,7 @@ class m170925_023208_create_table_module_function extends Migration
     
         $this->addPrimaryKey('unique', '{{%viMJHk_module_function}}', 'id');
     
-        $this->batchInsert('{{%viMJHk_module_function}}', ['id', 'app', 'module_id', 'controller_id', 'is_system', 'status'], [
-            ['03eedf833c61cf1f35512e4990046ebc', 'backend', '', 'site', 1, 1],
-            ['6d3a8837476a027562c30694aba27917', 'frontend', '', 'site', 1, 1],
-            ['740817e23bec63571d2217631ff01b65', 'console', '', 'wocenter', 1, 1],
-        ]);
-
-        $this->createIndex('idx-viMJHk_module_function-app', '{{%viMJHk_module_function}}', 'app');
+        $this->createIndex('idx-viMJHk_module_function-extension_name', '{{%viMJHk_module_function}}', 'extension_name');
     }
 
     public function safeDown()

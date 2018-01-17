@@ -25,12 +25,14 @@ class Info extends ModularityInfo
     /**
      * @inheritdoc
      */
-    public $description = '提供所有的菜单功能支持';
+    public $description = '提供系统所有的菜单功能支持';
     
     /**
      * @inheritdoc
      */
-    public $isSystem = true;
+    protected $depends = [
+        'wonail/yii2-module-extension:dev-master',
+    ];
     
     /**
      * @inheritdoc
@@ -78,6 +80,20 @@ class Info extends ModularityInfo
                             ],
                         ],
                     ],
+                ],
+            ],
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getConfig()
+    {
+        return [
+            'components' => [
+                'menuService' => [
+                    'class' => 'wocenter\backend\modules\menu\services\MenuService',
                 ],
             ],
         ];

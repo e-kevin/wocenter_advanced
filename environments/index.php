@@ -39,9 +39,11 @@ return [
             'frontend/web/assets',
             'frontend/extensions',
             'common/runtime',
+            'command/runtime',
         ],
         'setExecutable' => [
             'yii',
+            'cmd',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
@@ -56,9 +58,11 @@ return [
             'frontend/runtime',
             'frontend/web/assets',
             'common/runtime',
+            'command/runtime',
         ],
         'setExecutable' => [
             'yii',
+            'cmd',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',

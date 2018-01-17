@@ -3,9 +3,9 @@
 namespace backend\core;
 
 use wocenter\backend\modules\{
-    account\services\AccountService, action\services\ActionService, extension\services\ExtensionService,
-    log\services\LogService, menu\services\MenuService, notification\services\NotificationService,
-    passport\services\PassportService, system\services\SystemService
+    menu\services\MenuService, extension\services\ExtensionService, system\services\SystemService,
+    account\services\AccountService, action\services\ActionService, log\services\LogService,
+    notification\services\NotificationService, passport\services\PassportService
 };
 use wocenter\core\Service;
 

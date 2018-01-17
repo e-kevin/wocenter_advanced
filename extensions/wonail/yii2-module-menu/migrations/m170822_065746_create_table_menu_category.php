@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\controllers\wocenter\Migration;
+use wocenter\db\Migration;
 
 class m170822_065746_create_table_menu_category extends Migration
 {

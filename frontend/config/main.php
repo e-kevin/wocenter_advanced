@@ -1,38 +1,24 @@
 <?php
-$captchaAction = '/passport/security/captcha'; // 验证码路由地址
 $params = array_merge(
     require(__DIR__ . '/../../common/config/params.php'),
     require(__DIR__ . '/../../common/config/params-local.php'),
     require(__DIR__ . '/params.php'),
     require(__DIR__ . '/params-local.php')
 );
-$params['captchaAction'] = $captchaAction;
 
 return [
     'id' => 'frontend',
-    'name' => 'WoCenter System',
+    'name' => 'WoCenter Advanced',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'frontend\controllers',
     'bootstrap' => [
         'log',
-        'bootstrap',
-    ],
-    'container' => [
-        'definitions' => [
-            'yii\captcha\Captcha' => [
-                'captchaAction' => $captchaAction,
-                'template' => '<div class="input-group">{input}<div class="input-group-addon">{image}</div></div>',
-            ],
-        ],
     ],
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => '\wocenter\backend\modules\account\models\BaseUser',
-            'loginUrl' => ['/passport/common/login'],
-            'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'i18n' => [
@@ -63,23 +49,24 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => true,
 //            'suffix' => '.html',
-            'rules' => [
-                '' => 'site/index',
-            ],
         ],
         'extensionService' => [
             'class' => 'wocenter\backend\modules\extension\services\ExtensionService',
             'subService' => [
-                'controller' => ['class' => 'wocenter\backend\modules\extension\services\extension\ControllerService'],
-                'modularity' => ['class' => 'wocenter\backend\modules\extension\services\extension\ModularityService'],
-                'load' => ['class' => 'wocenter\backend\modules\extension\services\extension\LoadService'],
-                'theme' => ['class' => 'wocenter\backend\modules\extension\services\extension\ThemeService'],
+                'controller' => ['class' => 'wocenter\backend\modules\extension\services\sub\ControllerService'],
+                'modularity' => ['class' => 'wocenter\backend\modules\extension\services\sub\ModularityService'],
+                'load' => ['class' => 'wocenter\backend\modules\extension\services\sub\LoadService'],
+                'theme' => [
+                    'class' => 'wocenter\backend\modules\extension\services\sub\ThemeService',
+                    'themeConfigKey' => 'FRONTEND_THEME',
+                    'defaultTheme' => 'yii2-frontend-theme-basic',
+                ],
             ],
         ],
         'systemService' => [
             'class' => 'wocenter\backend\modules\system\services\SystemService',
             'subService' => [
-                'config' => ['class' => 'wocenter\backend\modules\system\services\system\ConfigService'],
+                'config' => ['class' => 'wocenter\backend\modules\system\services\sub\ConfigService'],
             ],
         ],
     ],

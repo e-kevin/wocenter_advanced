@@ -15,7 +15,7 @@ class Info extends FunctionInfo
     /**
      * @inheritdoc
      */
-    public $moduleId = '';
+    protected $moduleId = '';
     
     /**
      * @inheritdoc
@@ -30,6 +30,17 @@ class Info extends FunctionInfo
     /**
      * @inheritdoc
      */
-    public $isSystem = true;
+    public function getConfig()
+    {
+        return [
+            'components' => [
+                'urlManager' => [
+                    'rules' => [
+                        '' => "{$this->id}/index",
+                    ],
+                ],
+            ],
+        ];
+    }
     
 }

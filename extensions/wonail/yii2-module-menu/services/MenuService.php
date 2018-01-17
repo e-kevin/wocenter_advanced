@@ -3,6 +3,8 @@
 namespace wocenter\backend\modules\menu\services;
 
 use wocenter\backend\modules\menu\models\Menu;
+use wocenter\core\FunctionInfo;
+use wocenter\core\ModularityInfo;
 use wocenter\core\Service;
 use wocenter\Wc;
 use wocenter\helpers\ArrayHelper;
@@ -45,19 +47,16 @@ class MenuService extends Service
     public function getMenus($category = '', array $condition = [])
     {
         $menus = $this->getMenusByCategoryWithFilter($category, $condition, false);
-        if (is_string($category)) {
-            return isset($menus[$category]) ? $menus[$category] : [];
-        } else {
-            return $menus;
-        }
+        
+        return is_string($category) ? ($menus[$category] ?? []) : $menus;
     }
     
     /**
-     * 根据查询条件和$filterCategory指标 [获取 || 不获取] 指定分类（单个或多个）的菜单数据
+     * 根据查询条件和$filterCategory指标 [获取|不获取] 指定分类（单个或多个）的菜单数据
      *
      * @param string|array $category 分类ID
      * @param array $condition 查询条件
-     * @param boolean $filterCategory 过滤指定$category分类的菜单，默认：不过滤
+     * @param bool $filterCategory 过滤指定$category分类的菜单，默认：不过滤
      *
      * @return array ['backend' => [], 'frontend' => [], 'main' => []]
      */
@@ -81,69 +80,61 @@ class MenuService extends Service
     }
     
     /**
-     * 同步所有已安装模块的菜单项，此处不获取缓存中的菜单项
+     * 获取所有已经安装的扩展菜单配置数据
      *
-     * @param array $menus 需要同步的菜单数据，默认为空，即同步所有已经安装模块的菜单数据
-     *
-     * @return bool
+     * @return array
+     * [
+     *  {app} => []
+     * ]
      */
-    public function syncMenus($menus = [])
+    private function getAllInstalledMenus()
     {
-        /** @var Menu $menuModel */
-        $menuModel = $this->menuModel;
-        // 获取菜单配置信息
-        $allMenuConfig = ArrayHelper::merge(
-            Wc::$service->getExtension()->getModularity()->getMenus(), // 模块菜单
-            Wc::$service->getExtension()->getController()->getMenus(), // 模块功能扩展菜单
-            $menus
-        );
-        // 获取数据库里的所有菜单数据，不包括用户自建数据
-        $menuInDatabase = $this->getMenus('backend', [
-            'created_type' => [
-                'in',
-                [
-                    $menuModel::CREATE_TYPE_BY_MODULE,
-                    $menuModel::CREATE_TYPE_BY_EXTENSION,
-                ],
-            ],
-        ]);
-        $updateDbMenus = $this->_convertMenuData2Db($allMenuConfig, 0, $menuInDatabase);
-        $this->_fixMenuData($menuInDatabase, $updateDbMenus);
+        $arr = [];
+        foreach (Wc::$service->getExtension()->getLoad()->getAllConfig(true) as $app => $item) {
+            foreach ($item as $type => $row) {
+                if (in_array($type, ['controllers', 'modules'])) {
+                    unset($row['config']);
+                    foreach ($row as $uniqueName => $config) {
+                        /* @var $infoInstance ModularityInfo|FunctionInfo */
+                        $infoInstance = $config['infoInstance'];
+                        $arr[$infoInstance->app] = ArrayHelper::merge(
+                            $arr[$infoInstance->app] ?? [],
+                            $this->formatMenuConfig($infoInstance->getMenus(), $infoInstance->app)
+                        );
+                    }
+                }
+            }
+        }
         
-        // 操作数据库
-        $this->_updateMenus($updateDbMenus);
-        // 删除菜单缓存
-        $this->clearCache();
-        
-        return true;
+        return $arr;
     }
     
     /**
-     * 初始化菜单配置数据，用于补全修正菜单数组。可用字段必须存在于$this->menuModel数据表里
+     * 同步扩展菜单项
      *
-     * @param array $menus
+     * @return bool
      */
-    protected function _initMenuConfig(&$menus = [])
+    public function syncMenus()
     {
-        $menus['url'] = isset($menus['url']) ? $menus['url'] : 'javascript:;';
-        $menus['params'] = isset($menus['params']) ? serialize($menus['params']) : '';
-        // 模块ID
-        if (!isset($menus['modularity']) && $menus['url'] != 'javascript:;') {
-            preg_match('/\w+/', $menus['url'], $modularity);
-            $menus['modularity'] = $modularity[0];
+        // 获取所有应用扩展菜单项
+        $menus = $this->getAllInstalledMenus();
+        // 不获取缓存中的菜单项
+        $this->cacheDuration = false;
+        /** @var Menu $menuModel */
+        $menuModel = $this->menuModel;
+        // 获取数据库里的所有菜单数据，不包括用户自建数据
+        $menuInDatabase = $this->getMenus(array_keys(Yii::$app->params['appList']), [
+            'created_type' => $menuModel::CREATE_TYPE_BY_EXTENSION,
+        ]);
+        $updateDbMenus = [];
+        foreach ($menus as $app => $item) {
+            $updateDbMenus = ArrayHelper::merge($updateDbMenus, $this->_convertMenuDataInDb($item, 0, $menuInDatabase[$app]));
         }
-        $menus['category_id'] = Yii::$app->id;
-        $menus['created_type'] = isset($menus['created_type']) ? $menus['created_type'] : Menu::CREATE_TYPE_BY_MODULE;
-        $menus['show_on_menu'] = isset($menus['show_on_menu']) ? 1 : 0;
-        $menus['alias_name'] = isset($menus['alias_name']) ? $menus['alias_name'] : $menus['name'];
-        $menus['sort_order'] = isset($menus['sort_order']) ? $menus['sort_order'] : 0;
-        // 需要补全的字段
-        $fields = ['icon_html', 'description'];
-        foreach ($fields as $field) {
-            if (!isset($menus[$field])) {
-                $menus[$field] = '';
-            }
-        }
+        $this->_fixMenuData($menuInDatabase, $updateDbMenus);
+        // 操作数据库
+        $this->_updateMenus($updateDbMenus);
+        
+        return true;
     }
     
     /**
@@ -151,22 +142,20 @@ class MenuService extends Service
      *
      * @param array $menus 需要转换的菜单配置信息
      * @param integer $parentId 数组父级ID
-     * @param array &$menuInDatabase 数据库里的菜单数据
+     * @param array &$menuInDatabase 数据库里原有的菜单数据
      *
      * @return array ['create', 'update']
      * @throws \yii\db\Exception
      */
-    protected function _convertMenuData2Db(array $menus, $parentId = 0, &$menuInDatabase = [])
+    protected function _convertMenuDataInDb(array $menus, $parentId = 0, &$menuInDatabase = [])
     {
         if (empty($menus)) {
             return [];
         }
         $arr = [];
-        
         /** @var Menu $menuModel */
         $menuModel = $this->menuModel;
         foreach ($menus as $row) {
-            $this->_initMenuConfig($row);
             // 排除没有设置归属模块的数据以及中断该数据的子数据
             // todo 改为系统日志记录该错误或抛出系统异常便于更正?
             if (empty($row['modularity'])) {
@@ -174,60 +163,62 @@ class MenuService extends Service
             }
             
             $items = ArrayHelper::remove($row, 'items', []);
-            $row['parent_id'] = $parentId;
+            $row['parent_id'] = $parentId; // 添加菜单父级ID
             $arr['menuConfig'][] = $row;
             $condition = [
+                'category_id' => $row['category_id'],
                 'name' => $row['name'],
                 'modularity' => $row['modularity'],
                 'url' => $row['url'],
                 'parent_id' => $row['parent_id'],
             ];
             
-            if (!empty($items) // 存在子级菜单配置数据
-                || $row['parent_id'] == 0 // 菜单为顶级菜单
-            ) {
+            if (!empty($items)) {
                 // 数据库里存在数据
                 if (($data = ArrayHelper::listSearch($menuInDatabase, $condition, true))) {
+                    $row['id'] = $data[0]['id'];
                     // 检测数据是否改变
                     foreach ($row as $key => $value) {
                         if ($data[0][$key] != $value) {
-                            $arr['update'][$data[0]['id']][$key] = $value;
+                            $arr['update'][$row['id']][$key] = $value;
                         }
                     }
-                    $arr = ArrayHelper::merge($arr, $this->_convertMenuData2Db($items, $data[0]['id'], $menuInDatabase));
                 } else {
                     // 不存在父级菜单则递归新建父级菜单
                     if (Yii::$app->getDb()->createCommand()->insert($menuModel::tableName(), $row)->execute()) {
-                        $find = $menuModel::find()->where($row)->asArray()->one();
+                        $row['id'] = $menuModel::find()->select('id')->where($row)->scalar();
                         // 同步更新数据库已有数据
-                        $menuInDatabase[] = $find;
-                        $arr = ArrayHelper::merge($arr, $this->_convertMenuData2Db($items, $find['id'], $menuInDatabase));
+                        $menuInDatabase[] = $row;
                     }
                 }
-            }
-            
-            // 数据库里存在数据
-            if (
-                ($data = ArrayHelper::listSearch($menuInDatabase, $condition, true)) ||
-                // 最底层菜单可以修改`name`字段
-                ($data = ArrayHelper::listSearch($menuInDatabase, [
-                    'modularity' => $row['modularity'],
-                    'url' => $row['url'],
-                    'parent_id' => $row['parent_id'],
-                ], true))
-            ) {
-                // 检测数据是否改变
-                foreach ($row as $key => $value) {
-                    if ($data[0][$key] != $value) {
-                        $arr['update'][$data[0]['id']][$key] = $value;
-                    }
-                }
+                $arr = ArrayHelper::merge($arr, $this->_convertMenuDataInDb($items, $row['id'], $menuInDatabase));
             } else {
-                // 排序，便于批量插入数据库
-                ksort($row);
-                $arr['create'][] = $row;
-                // 同步更新数据库已有数据
-                $menuInDatabase[] = $row;
+                // 数据库里存在数据
+                if (
+                    ($data = ArrayHelper::listSearch($menuInDatabase, $condition, true))
+                    // 最底层菜单可以修改`name`字段
+                    || ($data = ArrayHelper::listSearch($menuInDatabase, [
+                        'category_id' => $row['category_id'],
+                        'modularity' => $row['modularity'],
+                        'url' => $row['url'],
+                        'parent_id' => $row['parent_id'],
+                    ], true))
+                ) {
+                    $row['id'] = $data[0]['id'];
+                    // 检测数据是否改变
+                    foreach ($row as $key => $value) {
+                        if ($data[0][$key] != $value) {
+                            $arr['update'][$row['id']][$key] = $value;
+                        }
+                    }
+                } else {
+                    // 不存在子类菜单则列入待新建数组里
+                    // 排序，保持键序一致，便于批量插入数据库
+                    ksort($row);
+                    $arr['create'][] = $row;
+                    // 同步更新数据库已有数据
+                    $menuInDatabase[] = $row;
+                }
             }
         }
         
@@ -242,24 +233,29 @@ class MenuService extends Service
      */
     private function _fixMenuData($menuInDatabase = [], &$arr = [])
     {
-        foreach ($menuInDatabase as $row) {
-            // 配置数据里已删除，则删除数据库对应数据
-            if (
-                isset($arr['menuConfig']) &&
-                !ArrayHelper::listSearch($arr['menuConfig'], [
-                    'name' => $row['name'],
-                    'modularity' => $row['modularity'],
-                    'url' => $row['url'],
-                ], true) &&
-                (!key_exists($row['id'], isset($arr['update']) ? $arr['update'] : []))
-            ) {
-                $arr['delete'][$row['id']] = $row['id'];
+        foreach ($menuInDatabase as $app => $items) {
+            if ($items) {
+                foreach ($items as $row) {
+                    // 配置数据里已删除，则删除数据库对应数据
+                    if (
+                        isset($arr['menuConfig'])
+                        && !ArrayHelper::listSearch($arr['menuConfig'], [
+                            'category_id' => $row['category_id'],
+                            'name' => $row['name'],
+                            'modularity' => $row['modularity'],
+                            'url' => $row['url'],
+                        ], true)
+                        && (!key_exists($row['id'], $arr['update'] ?? []))
+                    ) {
+                        $arr['delete'][$row['id']] = $row['id'];
+                    }
+                }
             }
         }
     }
     
     /**
-     * 更新所有模块菜单
+     * 执行所有菜单操作
      *
      * @param array $array 需要操作的数据 ['delete', 'create', 'update']
      */
@@ -281,6 +277,8 @@ class MenuService extends Service
                     ->execute();
             }
         }
+        // 删除菜单缓存
+        $this->clearCache();
     }
     
     /**
@@ -294,27 +292,61 @@ class MenuService extends Service
     }
     
     /**
-     * 格式化菜单配置数据，主要把键值`name`转换成键名，方便使用\yii\helpers\ArrayHelper::merge合并相同键名的数组到同一分组下
+     * 格式化菜单配置数据
+     * 1. 把键值`name`转换成键名，方便使用\yii\helpers\ArrayHelper::merge合并相同键名的数组到同一分组下
+     * 2. 补全修正菜单数组。可用字段必须存在于$this->menuModel数据表里
      *
      * @param array $menus 菜单数据
+     * @param string $app 所属应用ID，默认为`null`，该值则为当前应用ID（Yii::$app->id）
      *
      * @return array
      */
-    public function formatMenuConfig($menus)
+    public function formatMenuConfig($menus, $app = null)
     {
-        $arr = [];
         if (empty($menus)) {
-            return $arr;
+            return [];
         }
+        $arr = [];
         foreach ($menus as $key => $menu) {
-            $key = isset($menu['name']) ? $menu['name'] : $key;
+            $key = $menu['name'] ?? $key;
+            $this->_initMenuConfig($menu, $app);
             $arr[$key] = $menu;
             if (isset($menu['items'])) {
-                $arr[$key]['items'] = $this->formatMenuConfig($menu['items']);
+                $arr[$key]['items'] = $this->formatMenuConfig($menu['items'], $app);
             }
         }
+        unset($menus);
         
         return $arr;
+    }
+    
+    /**
+     * 初始化菜单配置数据，用于补全修正菜单数组。可用字段必须存在于$this->menuModel数据表里
+     *
+     * @param array $menu
+     * @param string $app
+     */
+    private function _initMenuConfig(&$menu = [], $app)
+    {
+        $menu['category_id'] = $menu['category_id'] ?? ($app ?: Yii::$app->id);
+        $menu['url'] = $menu['url'] ?? 'javascript:;';
+        $menu['params'] = isset($menu['params']) ? serialize($menu['params']) : '';
+        // 模块ID
+        if (!isset($menu['modularity']) && $menu['url'] != 'javascript:;') {
+            preg_match('/\w+/', $menu['url'], $modularity);
+            $menu['modularity'] = $modularity[0];
+        }
+        $menu['created_type'] = $menu['created_type'] ?? Menu::CREATE_TYPE_BY_EXTENSION;
+        $menu['show_on_menu'] = isset($menu['show_on_menu']) ? 1 : 0;
+        $menu['alias_name'] = $menu['alias_name'] ?? $menu['name'];
+        $menu['sort_order'] = $menu['sort_order'] ?? 0;
+        // 需要补全的字段
+        $fields = ['icon_html', 'description'];
+        foreach ($fields as $field) {
+            if (!isset($menu[$field])) {
+                $menu[$field] = '';
+            }
+        }
     }
     
 }

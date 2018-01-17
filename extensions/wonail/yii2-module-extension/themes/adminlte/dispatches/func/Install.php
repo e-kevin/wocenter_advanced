@@ -26,6 +26,9 @@ class Install extends Dispatch
         Yii::$app->id = $app;
         
         $model = Wc::$service->getExtension()->getController()->getControllerInfo($id, false);
+        if (array_key_exists($id, Wc::$service->getExtension()->getLoad()->getInstalled())) {
+            return $this->controller->redirect(["update", 'app' => $app, 'id' => $id]);
+        }
         $request = Yii::$app->getRequest();
         
         if ($request->getIsPost()) {
@@ -33,11 +36,9 @@ class Install extends Dispatch
             // 是否为系统模块，以模块配置信息为准
             $model->is_system = $model->infoInstance->isSystem ?: $model->is_system;
             if ($model->save()) {
-                // 调用模块内置安装方法
-                $model->infoInstance->install();
-                $this->success('安装成功', ["/extension/func/index", 'app' => $app]);
+                $this->success('安装成功', parent::RELOAD_FULL_PAGE);
             } else {
-                $this->error($model->message ?: '安装失败');
+                $this->error($model->message ? nl2br($model->message) : '安装失败');
             }
         }
         
@@ -46,6 +47,7 @@ class Install extends Dispatch
         return $this->assign([
             'model' => $model,
             'id' => $request->get('id'),
+            'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
         ])->display();
     }
     

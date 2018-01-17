@@ -11,16 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
         'log',
-        'bootstrap',
     ],
     'controllerNamespace' => 'console\controllers',
     'controllerMap' => [
         'fixture' => [
             'class' => 'yii\console\controllers\FixtureController',
             'namespace' => 'common\fixtures',
-        ],
-        'wocenter' => [
-            'class' => 'wocenter\console\controllers\wocenter\controllers\WocenterController',
         ],
     ],
     'components' => [
@@ -32,18 +28,13 @@ return [
                 ],
             ],
         ],
-        'bootstrap' => [
-            'method' => [
-                'loadExtensionAliases',
-            ],
-        ],
         'extensionService' => [
             'class' => 'wocenter\backend\modules\extension\services\ExtensionService',
             'subService' => [
-                'controller' => ['class' => 'wocenter\backend\modules\extension\services\extension\ControllerService'],
-                'modularity' => ['class' => 'wocenter\backend\modules\extension\services\extension\ModularityService'],
-                'load' => ['class' => 'wocenter\backend\modules\extension\services\extension\LoadService'],
-                'theme' => ['class' => 'wocenter\backend\modules\extension\services\extension\ThemeService'],
+                'controller' => ['class' => 'wocenter\backend\modules\extension\services\sub\ControllerService'],
+                'modularity' => ['class' => 'wocenter\backend\modules\extension\services\sub\ModularityService'],
+                'load' => ['class' => 'wocenter\backend\modules\extension\services\sub\LoadService'],
+                'theme' => ['class' => 'wocenter\backend\modules\extension\services\sub\ThemeService'],
             ],
         ],
         'menuService' => [

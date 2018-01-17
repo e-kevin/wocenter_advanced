@@ -14,7 +14,7 @@ $this->title = Yii::$app->name;
         <p>
             <a class="btn btn-lg btn-success" href="https://github.com/Wonail/wocenter"
                target="_blank">了解 WoCenter 最新动态</a>
-            <a class="btn btn-lg btn-primary" href="http://www.wonail.com/doc/guide"
+            <a class="btn btn-lg btn-primary" href="http://www.wonail.com/doc/wocenter/guide/zh-CN/guide-index.html"
                target="_blank">WoCenter 权威指南</a>
         </p>
     </div>

@@ -15,7 +15,7 @@ class Info extends FunctionInfo
     /**
      * @inheritdoc
      */
-    public $moduleId = '';
+    protected $moduleId = '';
     
     /**
      * @inheritdoc
@@ -30,6 +30,27 @@ class Info extends FunctionInfo
     /**
      * @inheritdoc
      */
-    public $isSystem = true;
+    protected $depends = [
+        'wonail/yii2-module-extension:dev-master',
+    ];
+    
+    /**
+     * @inheritdoc
+     */
+    public function getConfig()
+    {
+        return [
+            'components' => [
+                'urlManager' => [
+                    'rules' => [
+                        '' => "{$this->id}/index",
+                    ],
+                ],
+                'errorHandler' => [
+                    'errorAction' => "{$this->id}/error",
+                ],
+            ],
+        ];
+    }
     
 }

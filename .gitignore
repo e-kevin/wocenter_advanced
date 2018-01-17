@@ -3,6 +3,9 @@
 /yii_test
 /yii_test.bat
 
+# wocenter console commands
+/cmd
+
 # phpstorm project files
 .idea
 

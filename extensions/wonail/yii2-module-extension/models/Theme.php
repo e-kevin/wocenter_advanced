@@ -2,16 +2,13 @@
 
 namespace wocenter\backend\modules\extension\models;
 
-use wocenter\core\ActiveRecord;
-use wocenter\Wc;
-use Yii;
+use wocenter\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%viMJHk_theme}}".
  *
  * @property string $id
- * @property string $app
- * @property string $name
+ * @property string $extension_name
  * @property integer $is_system
  * @property integer $status
  */
@@ -37,10 +34,10 @@ class Theme extends ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'app', 'name'], 'required'],
+            [['id', 'extension_name'], 'required'],
             [['is_system', 'status'], 'integer'],
             [['id'], 'string', 'max' => 64],
-            [['app', 'name'], 'string', 'max' => 15],
+            [['extension_name'], 'string', 'max' => 255],
         ];
     }
     
@@ -51,29 +48,20 @@ class Theme extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'app' => '所属应用',
-            'name' => '主题名称',
+            'extension_name' => '扩展名称',
             'is_system' => '系统扩展',
             'status' => '状态',
         ];
     }
     
     /**
-     * 获取当前应用已经安装的主题扩展
+     * 获取已经安装的主题扩展
      *
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function getInstalledThemes()
+    public function getInstalled()
     {
-        return self::find()->where(['app' => Yii::$app->id, 'status' => 1])->asArray()->indexBy('id')->all();
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function clearCache()
-    {
-        Wc::$service->getExtension()->getTheme()->clearCache();
+        return self::find()->asArray()->indexBy('extension_name')->all();
     }
     
 }

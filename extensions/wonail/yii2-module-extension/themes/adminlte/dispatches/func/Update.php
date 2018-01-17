@@ -51,6 +51,7 @@ class Update extends Dispatch
         return $this->assign([
             'model' => $model,
             'id' => $request->get('id'),
+            'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
         ])->display();
     }
     

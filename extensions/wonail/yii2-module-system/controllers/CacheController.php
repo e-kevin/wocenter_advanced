@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\system\controllers;
 
-use backend\core\Controller;
+use wocenter\core\Controller;
 
 /**
  * Class CacheController

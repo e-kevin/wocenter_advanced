@@ -3,10 +3,9 @@
 namespace wocenter\backend\modules\menu\models;
 
 use wocenter\behaviors\TreeBehavior;
-use wocenter\core\ActiveRecord;
+use wocenter\db\ActiveRecord;
 use wocenter\interfaces\MenuInterface;
 use wocenter\Wc;
-use Yii;
 
 /**
  * This is the model class for table "{{%viMJHk_menu}}".
@@ -156,7 +155,6 @@ class Menu extends ActiveRecord implements MenuInterface
     {
         return [
             self::CREATE_TYPE_BY_USER => '用户',
-            self::CREATE_TYPE_BY_MODULE => '模块',
             self::CREATE_TYPE_BY_EXTENSION => '扩展',
         ];
     }

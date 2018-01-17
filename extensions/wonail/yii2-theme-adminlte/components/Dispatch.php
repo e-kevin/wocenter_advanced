@@ -107,10 +107,10 @@ class Dispatch extends \wocenter\core\Dispatch
                 } else {
                     // 如果操作为只更新局部列表数据、翻页、搜索页面、数据切换时，则禁用布局文件和资源加载，直接解析视图文件
                     if (
-                        $request->get('reload-list')
-                        || $request->get('page')
-                        || $request->get('from-search')
-                        || $request->get('_toggle')
+                        $request->get('reload-list') // 更新局部列表数据
+                        || $request->get('page') // 翻页
+                        || $request->get('from-search') // 搜索页面
+                        || $request->get('_toggle') // 数据切换时
                     ) {
                         return $this->controller->renderPartial($view, $assign);
                     } else {

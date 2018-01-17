@@ -24,7 +24,7 @@ class Index extends Dispatch
         Yii::$app->id = $app;
         
         $dataProvider = new ArrayDataProvider([
-            'allModels' => Wc::$service->getExtension()->getController()->getFunctionList(),
+            'allModels' => Wc::$service->getExtension()->getController()->getControllerList(),
             'key' => 'id',
             'pagination' => [
                 'pageSize' => -1, //不使用分页

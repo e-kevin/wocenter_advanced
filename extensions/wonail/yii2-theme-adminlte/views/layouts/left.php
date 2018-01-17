@@ -19,7 +19,15 @@ $sidebarMenus = ArrayHelper::listToTree($sidebarMenus);
                 <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
             </div>
             <div class="pull-left info">
-                <p><?= Yii::$app->getUser()->getIdentity()->username ?></p>
+                <p>
+                <?php
+                    if (Yii::$app->hasModule('passport')) {
+                        echo Yii::$app->getUser()->getIdentity()->username;
+                    } else {
+                        echo 'N/A';
+                    }
+                ?>
+                </p>
 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>

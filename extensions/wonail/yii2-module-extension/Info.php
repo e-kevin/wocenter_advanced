@@ -25,12 +25,14 @@ class Info extends ModularityInfo
     /**
      * @inheritdoc
      */
-    public $description = '对系统中所有类型的扩展进行管理';
+    public $description = '对系统中所有类型的扩展进行管理，包括模块扩展、功能扩展、主题扩展等';
     
     /**
      * @inheritdoc
      */
-    public $isSystem = true;
+    protected $depends = [
+        'wonail/yii2-module-system:dev-master',
+    ];
     
     /**
      * @inheritdoc
@@ -87,6 +89,27 @@ class Info extends ModularityInfo
                     ],
                 ],
             ],
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getConfig()
+    {
+        return [
+            'components' => [
+                'extensionService' => [
+                    'class' => 'wocenter\backend\modules\extension\services\ExtensionService',
+                    'subService' => [
+                        'controller' => ['class' => 'wocenter\backend\modules\extension\services\sub\ControllerService'],
+                        'modularity' => ['class' => 'wocenter\backend\modules\extension\services\sub\ModularityService'],
+                        'load' => ['class' => 'wocenter\backend\modules\extension\services\sub\LoadService'],
+                        'theme' => ['class' => 'wocenter\backend\modules\extension\services\sub\ThemeService'],
+                        'dependent' => ['class' => 'wocenter\backend\modules\extension\services\sub\DependentService'],
+                    ],
+                ],
+            ]
         ];
     }
     

@@ -18,9 +18,6 @@ return [
             'class' => 'yii\caching\FileCache',
             'cachePath' => '@common/runtime/cache',
         ],
-        'bootstrap' => [
-            'class' => 'wocenter\backend\modules\extension\Bootstrap',
-        ],
 //        'session' => [
 //            // 如果需要数据库存取$_SESSION会话数据，请自行安装该数据库迁移[[\yii\db\Migration\m160313_153426_session_init]]
 //            'class' => 'yii\web\DbSession',

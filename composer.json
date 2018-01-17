@@ -16,7 +16,7 @@
     "license": "BSD-3-Clause",
     "homepage": "https://github.com/Wonail/wocenter_advanced",
     "require": {
-        "wonail/wocenter": "dev-master",
+        "wonail/wocenter": "~0.3.0",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
         "kartik-v/yii2-widget-select2": "@dev",

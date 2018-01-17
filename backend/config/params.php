@@ -2,6 +2,5 @@
 return [
     'app.name' => 'WoCenter',
     'app.url' => '',
-    'app.copyright' => '2016-2017',
-    'superAdmin' => 1,
+    'app.copyright' => '2016-2018',
 ];

@@ -1,5 +1,5 @@
 <?php
-use wocenter\console\controllers\wocenter\Migration;
+use wocenter\db\Migration;
 
 class m170822_065628_create_table_menu extends Migration
 {
@@ -23,7 +23,7 @@ class m170822_065628_create_table_menu extends Migration
             'created_type' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('创建方式 0-用户(手动) 1-模块(自动)'),
             'modularity' => $this->string(20)->notNull()->comment('模块'),
             'show_on_menu' => $this->boolean()->unsigned()->notNull()->defaultValue(1)->comment('显示菜单 默认不显示'),
-        ], $this->tableOptions . $this->buildTableComment('菜单表') . ' AUTO_INCREMENT=1000');
+        ], $this->tableOptions . $this->buildTableComment('菜单表'));
 
         $this->createIndex('idx-viMJHk_menu-category_id', '{{%viMJHk_menu}}', 'category_id');
     }

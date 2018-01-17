@@ -23,23 +23,13 @@ class Uninstall extends Dispatch
     {
         $oldAppId = Yii::$app->id;
         Yii::$app->id = $app;
-        
         $model = Wc::$service->getExtension()->getController()->getControllerInfo($id);
-        
-        if ($model->infoInstance->canUninstall) {
-            // 调用模块内置卸载方法
-            if (!$model->infoInstance->uninstall()) {
-                $this->error(Wc::getErrorMessage());
-            }
-            $res = $model->delete();
-            Yii::$app->id = $oldAppId;
-            if ($res) {
-                $this->success('卸载成功', parent::RELOAD_PAGE);
-            } else {
-                $this->error('卸载失败');
-            }
+        $res = $model->delete();
+        Yii::$app->id = $oldAppId;
+        if ($res) {
+            $this->success('卸载成功', parent::RELOAD_FULL_PAGE);
         } else {
-            $this->error($id . ' 功能扩展属于系统扩展，暂不支持卸载');
+            $this->error($model->message ? nl2br($model->message) : '卸载失败');
         }
     }
     

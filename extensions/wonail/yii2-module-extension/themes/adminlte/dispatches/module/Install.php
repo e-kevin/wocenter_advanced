@@ -13,7 +13,7 @@ class Install extends Dispatch
 {
     
     /**
-     * @param string $id
+     * @param string $id 扩展名称
      * @param string $app 应用ID
      *
      * @return string|\yii\web\Response
@@ -26,21 +26,19 @@ class Install extends Dispatch
         Yii::$app->id = $app;
         
         $model = Wc::$service->getExtension()->getModularity()->getModuleInfo($id, false);
+        if (array_key_exists($id, Wc::$service->getExtension()->getLoad()->getInstalled())) {
+            return $this->controller->redirect(["update", 'app' => $app, 'id' => $id]);
+        }
         $request = Yii::$app->getRequest();
-        $validRunModuleList = $model->getValidRunList();
         
         if ($request->getIsPost()) {
             $model->load($request->getBodyParams());
             // 是否为系统模块，以模块配置信息为准
             $model->is_system = $model->infoInstance->isSystem ?: $model->is_system;
-            // 调用模块内置安装方法
-            if (!$model->infoInstance->install()) {
-                $this->error(Wc::getErrorMessage());
-            }
             if ($model->save()) {
-                $this->success('安装成功', ["/{$this->controller->module->id}", 'app' => $app]);
+                $this->success('安装成功', parent::RELOAD_FULL_PAGE);
             } else {
-                $this->error($model->message);
+                $this->error($model->message ? nl2br($model->message) : '安装失败');
             }
         }
         
@@ -48,8 +46,9 @@ class Install extends Dispatch
         
         return $this->assign([
             'model' => $model,
-            'validRunModuleList' => $validRunModuleList,
+            'runModuleList' => $model->getRunList(),
             'id' => $request->get('id'),
+            'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
         ])->display();
     }
     

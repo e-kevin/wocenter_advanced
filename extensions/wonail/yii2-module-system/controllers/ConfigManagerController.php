@@ -3,7 +3,7 @@
 namespace wocenter\backend\modules\system\controllers;
 
 use wocenter\actions\DeleteOne;
-use backend\core\Controller;
+use wocenter\core\Controller;
 use wocenter\backend\modules\system\models\Config;
 use yii\filters\VerbFilter;
 

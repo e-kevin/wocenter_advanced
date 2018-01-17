@@ -2,30 +2,27 @@
 
 namespace wocenter\backend\modules\extension\models;
 
-use wocenter\core\ActiveRecord;
-use wocenter\Wc;
-use Yii;
+use wocenter\backend\modules\extension\behaviors\ExtensionBehavior;
+use wocenter\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%viMJHk_module}}".
  *
  * @property string $id
- * @property string $app
+ * @property string $extension_name
  * @property string $module_id
  * @property integer $is_system
  * @property integer $status
  * @property integer $run
  *
- * @property array $runList 获取运行模块列表
- * @property array $validRunList 获取有效的运行模块列表
  */
 class Module extends ActiveRecord
 {
     
     /**
-     * @var integer 运行核心模块
+     * @var integer 运行扩展模块
      */
-    const RUN_MODULE_CORE = 0;
+    const RUN_MODULE_EXTENSION = 0;
     
     /**
      * @var integer 运行开发者模块
@@ -38,11 +35,6 @@ class Module extends ActiveRecord
     public $infoInstance;
     
     /**
-     * @var array 有效的运行模块列表
-     */
-    protected $_validRunModuleList;
-    
-    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -53,15 +45,27 @@ class Module extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => ExtensionBehavior::className(),
+        ];
+        
+        return $behaviors;
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['id', 'module_id'], 'required'],
+            [['id', 'module_id', 'extension_name'], 'required'],
             [['is_system', 'status', 'run'], 'integer'],
             [['id'], 'string', 'max' => 64],
-            [['app', 'module_id'], 'string', 'max' => 15],
-            [['app'], 'in', 'range' => array_keys(Yii::$app->params['appList'])],
-            [['run'], 'in', 'range' => array_keys($this->getValidRunList())],
+            [['extension_name'], 'string', 'max' => 255],
+            [['module_id'], 'string', 'max' => 15],
         ];
     }
     
@@ -72,41 +76,22 @@ class Module extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'app' => '所属应用',
+            'extension_name' => '扩展名称',
             'module_id' => '模块ID',
             'is_system' => '系统模块',
             'status' => '状态',
-            'run' => '运行版本',
+            'run' => '运行模块',
         ];
     }
     
     /**
-     * 获取当前应用已经安装的模块ID
-     *
-     * @return array 已经安装的模块ID
-     */
-    public function getInstalledModuleId()
-    {
-        return self::find()->select('id')->where(['app' => Yii::$app->id])->column();
-    }
-    
-    /**
-     * 获取当前应用已经安装的模块
+     * 获取已经安装的模块
      *
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function getInstalledModules()
+    public function getInstalled()
     {
-        return self::find()->where(['app' => Yii::$app->id])->asArray()->indexBy('id')->all();
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function clearCache()
-    {
-        Wc::$service->getMenu()->syncMenus();
-        Wc::$service->getExtension()->getModularity()->clearCache();
+        return self::find()->asArray()->indexBy('extension_name')->all();
     }
     
     /**
@@ -118,28 +103,8 @@ class Module extends ActiveRecord
     {
         return [
             self::RUN_MODULE_DEVELOPER => '开发者模块',
-            self::RUN_MODULE_CORE => '扩展模块',
+            self::RUN_MODULE_EXTENSION => '扩展模块',
         ];
-    }
-    
-    /**
-     * 获取有效的运行版本列表
-     *
-     * @return array
-     */
-    public function getValidRunList()
-    {
-        return $this->_validRunModuleList ?: $this->getRunList();
-    }
-    
-    /**
-     * 设置有效的运行版本列表
-     *
-     * @param $moduleList
-     */
-    public function setValidRunList($moduleList)
-    {
-        $this->_validRunModuleList = $moduleList;
     }
     
 }

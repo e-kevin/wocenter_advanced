@@ -2,7 +2,7 @@
 
 namespace wocenter\backend\modules\menu\models;
 
-use wocenter\core\ActiveRecord;
+use wocenter\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%viMJHk_menu_category}}".

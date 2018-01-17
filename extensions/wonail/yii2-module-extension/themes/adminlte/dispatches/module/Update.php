@@ -27,7 +27,6 @@ class Update extends Dispatch
         
         $model = Wc::$service->getExtension()->getModularity()->getModuleInfo($id);
         $request = Yii::$app->getRequest();
-        $validRunModuleList = $model->getValidRunList();
         
         if ($request->getIsPost()) {
             if ($model->load($request->getBodyParams())) {
@@ -51,8 +50,9 @@ class Update extends Dispatch
         
         return $this->assign([
             'model' => $model,
-            'validRunModuleList' => $validRunModuleList,
+            'runModuleList' => $model->getRunList(),
             'id' => $request->get('id'),
+            'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
         ])->display();
     }
     

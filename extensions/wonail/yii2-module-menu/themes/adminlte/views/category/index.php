@@ -24,7 +24,7 @@ if ($this->context->isFullPageLoad()) {
         'class' => 'btn btn-success',
         'data-pjax' => 1,
     ]);
-    $toolbars = Html::button('<i class="fa fa-refresh"></i> <span class="hidden-xs">同步后台菜单</span>', [
+    $toolbars = Html::button('<i class="fa fa-refresh"></i> <span class="hidden-xs">同步菜单</span>', [
         'class' => 'btn btn-warning',
         'href' => Url::toRoute(['sync-menus']),
         'data' => [

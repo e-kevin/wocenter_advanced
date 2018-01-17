@@ -2,11 +2,9 @@
 
 namespace wocenter\backend\modules\system\models;
 
-use wocenter\core\ActiveRecord;
-use wocenter\helpers\StringHelper;
+use wocenter\db\ActiveRecord;
 use wocenter\helpers\ArrayHelper;
 use wocenter\Wc;
-use Yii;
 use yii\behaviors\TimestampBehavior;
 
 /**
@@ -121,28 +119,16 @@ class Config extends ActiveRecord
      * 获取指定分类的配置项
      *
      * @param string $categoryId 分类ID
-     * @param boolean $fromCache 是否从缓存获取数据，默认：是
      *
-     * @return Config
+     * @return Config[]
      */
-    public static function getConfigByCategory($categoryId = '', $fromCache = true)
+    public static function getConfigByCategory(string $categoryId)
     {
-        $cachekey = self::CACHE_PREFIX . $categoryId;
-        
-        $arr = $fromCache ? Yii::$app->getCache()->get($cachekey) : false;
-        
-        if ($arr === false) {
-            $arr = Config::find()->select(['id', 'title', 'name', 'extra', 'remark', 'value', 'type', 'category_group', 'rule'])
-                ->where(['category_group' => $categoryId, 'status' => 1])
-                ->indexBy('name')
-                ->orderBy('sort_order')
-                ->all();
-            if ($arr !== null) {
-                Yii::$app->getCache()->set($cachekey, $arr);
-            }
-        }
-        
-        return $arr;
+        return Config::find()->select(['id', 'title', 'name', 'extra', 'remark', 'value', 'type', 'category_group', 'rule'])
+            ->where(['category_group' => $categoryId, 'status' => 1])
+            ->indexBy('name')
+            ->orderBy('sort_order')
+            ->all();
     }
     
     /**
@@ -150,48 +136,16 @@ class Config extends ActiveRecord
      *
      * @return array
      */
-    public static function getAllConfig()
+    public static function getAllConfig(): array
     {
-        $cacheDuration = self::$cacheDuration;
-        
-        return Wc::getOrSet(self::CACHE_PREFIX . 'all', function () use ($cacheDuration) {
-            return Config::find()->select(['name', 'value', 'extra'])->where(['status' => 1])->indexBy('name')->asArray()->all();
-        }, $cacheDuration, null, 'commonCache');
-    }
-    
-    /**
-     * 获取指定标识的配置值
-     *
-     * @param string $key 标识ID e.g. DOCUMENT_TYPE
-     * @param string $defaultValue 默认值
-     *
-     * @return array|string 没有设置默认值且获取不到数据，则显示“不存在配置项”
-     */
-    public static function getValue($key, $defaultValue = null)
-    {
-        $arr = self::getAllConfig();
-        if ($arr[$key] === null) {
-            return ($defaultValue !== null) ? $defaultValue : '不存在配置项：' . $key;
-        }
-        
-        return $arr[$key]['value'];
-    }
-    
-    /**
-     * 获取指定标识的额外配置值
-     *
-     * @param string $key 标识ID .e.g DOCUMENT_TYPE
-     *
-     * @return array
-     */
-    public static function getExtra($key)
-    {
-        $arr = self::getAllConfig();
-        if ($arr[$key] === null) {
-            return '不存在配置项：' . $key;
-        }
-        
-        return StringHelper::parseString($arr[$key]['extra']);
+        return Wc::getOrSet(self::CACHE_PREFIX . 'all', function () {
+            return Config::find()
+                ->select(['name', 'value', 'extra'])
+                ->where(['status' => 1])
+                ->indexBy('name')
+                ->asArray()
+                ->all();
+        }, self::$cacheDuration, null, 'commonCache');
     }
     
     /**
@@ -199,7 +153,6 @@ class Config extends ActiveRecord
      */
     public function clearCache()
     {
-        Yii::$app->getCache()->delete(self::CACHE_PREFIX . $this->category_group);
         Wc::cache()->delete(self::CACHE_PREFIX . 'all');
     }
     

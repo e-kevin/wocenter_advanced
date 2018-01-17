@@ -25,12 +25,7 @@ class Info extends ModularityInfo
     /**
      * @inheritdoc
      */
-    public $description = '提供网站设置、配置管理等';
-    
-    /**
-     * @inheritdoc
-     */
-    public $isSystem = true;
+    public $description = '提供网站设置、配置管理等功能支持';
     
     /**
      * @inheritdoc
@@ -81,6 +76,33 @@ class Info extends ModularityInfo
                                 ],
                             ],
                             ['name' => '清理缓存', 'url' => "/{$this->id}/cache/flushCache", 'show_on_menu' => true, 'sort_order' => 100],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getConfig()
+    {
+        return [
+            'components' => [
+                'systemService' => [
+                    'class' => 'wocenter\backend\modules\system\services\SystemService',
+                    'subService' => [
+                        'config' => ['class' => 'wocenter\backend\modules\system\services\sub\ConfigService'],
+                        'validation' => ['class' => 'wocenter\backend\modules\system\services\sub\ValidationService'],
+                    ],
+                ],
+                'i18n' => [
+                    'translations' => [
+                        'wocenter/*' => [
+                            'class' => 'yii\i18n\PhpMessageSource',
+                            'sourceLanguage' => 'en-US',
+                            'basePath' => '@wocenter/messages',
                         ],
                     ],
                 ],

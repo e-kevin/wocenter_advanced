@@ -2,16 +2,15 @@
 
 namespace wocenter\backend\modules\extension\models;
 
-use wocenter\core\ActiveRecord;
-use wocenter\Wc;
-use Yii;
+use wocenter\backend\modules\extension\behaviors\ExtensionBehavior;
+use wocenter\db\ActiveRecord;
 
 /**
  * This is the model class for table "{{%viMJHk_module_function}}".
  *
  * @property string $id
- * @property string $app
  * @property string $module_id
+ * @property string $extension_name
  * @property string $controller_id
  * @property integer $is_system
  * @property integer $status
@@ -35,13 +34,26 @@ class ModuleFunction extends ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors[] = [
+            'class' => ExtensionBehavior::className(),
+        ];
+        
+        return $behaviors;
+    }
+    
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['id', 'app', 'controller_id'], 'required'],
+            [['id', 'controller_id', 'extension_name'], 'required'],
             [['is_system', 'status'], 'integer'],
             [['id', 'module_id', 'controller_id'], 'string', 'max' => 64],
-            [['app'], 'string', 'max' => 15],
+            [['extension_name'], 'string', 'max' => 255],
         ];
     }
     
@@ -52,31 +64,22 @@ class ModuleFunction extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'extension_name' => '扩展名称',
             'module_id' => '模块ID',
             'controller_id' => '控制器ID',
-            'app' => '所属应用',
             'is_system' => '系统扩展',
             'status' => '状态',
         ];
     }
     
     /**
-     * 获取当前应用已经安装的功能扩展
+     * 获取已经安装的功能扩展
      *
      * @return array|\yii\db\ActiveRecord[]
      */
-    public function getInstalledControllers()
+    public function getInstalled()
     {
-        return self::find()->where(['app' => Yii::$app->id])->asArray()->indexBy('id')->all();
-    }
-    
-    /**
-     * @inheritdoc
-     */
-    public function clearCache()
-    {
-        Wc::$service->getMenu()->syncMenus();
-        Wc::$service->getExtension()->getController()->clearCache();
+        return self::find()->asArray()->indexBy('extension_name')->all();
     }
     
 }
