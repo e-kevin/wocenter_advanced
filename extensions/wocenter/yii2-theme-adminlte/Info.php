@@ -41,9 +41,9 @@ class Info extends ThemeInfo
      * @inheritdoc
      */
     protected $depends = [
-        'wonail/yii2-module-system:dev-master',
-        'wonail/yii2-module-extension:dev-master',
-        'wonail/yii2-module-menu:dev-master',
+        'wocenter/yii2-module-system:dev-master',
+        'wocenter/yii2-module-extension:dev-master',
+        'wocenter/yii2-module-menu:dev-master',
     ];
     
 }

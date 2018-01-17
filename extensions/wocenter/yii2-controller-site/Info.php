@@ -31,7 +31,7 @@ class Info extends FunctionInfo
      * @inheritdoc
      */
     protected $depends = [
-        'wonail/yii2-module-extension:dev-master',
+        'wocenter/yii2-module-extension:dev-master',
     ];
     
     /**

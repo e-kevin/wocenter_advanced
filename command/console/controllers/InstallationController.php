@@ -37,15 +37,15 @@ class InstallationController extends MigrateController
      */
     public $defaultExtension = [
         // modules
-        'wonail/yii2-module-extension:dev-master',
-        'wonail/yii2-module-system:dev-master',
-        'wonail/yii2-module-menu:dev-master',
+        'wocenter/yii2-module-extension:dev-master',
+        'wocenter/yii2-module-system:dev-master',
+        'wocenter/yii2-module-menu:dev-master',
         // controllers
-        'wonail/yii2-controller-site:dev-master',
-        'wonail/yii2-frontend-controller-site:dev-master',
+        'wocenter/yii2-controller-site:dev-master',
+        'wocenter/yii2-frontend-controller-site:dev-master',
         // themes
-        'wonail/yii2-theme-adminlte:dev-master',
-        'wonail/yii2-frontend-theme-basic:dev-master',
+        'wocenter/yii2-theme-adminlte:dev-master',
+        'wocenter/yii2-frontend-theme-basic:dev-master',
     ];
     
     /**

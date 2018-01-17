@@ -46,7 +46,7 @@ class ModularityService extends Service
     /**
      * 获取系统已经安装的模块名称，主要用于列表筛选
      *
-     * @return array e.g. ['wonail/yii2-module-account' => '账户管理', 'wonail/yii2-module-rbac' => '权限管理']
+     * @return array e.g. ['wocenter/yii2-module-account' => '账户管理', 'wocenter/yii2-module-rbac' => '权限管理']
      */
     public function getInstalledSelectList()
     {

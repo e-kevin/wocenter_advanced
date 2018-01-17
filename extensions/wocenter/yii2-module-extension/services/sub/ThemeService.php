@@ -29,7 +29,7 @@ class ThemeService extends Service
     /**
      * @var string 默认主题扩展名
      */
-    public $defaultTheme = 'wonail/yii2-theme-adminlte';
+    public $defaultTheme = 'wocenter/yii2-theme-adminlte';
     
     /**
      * @var string 主题配置键名

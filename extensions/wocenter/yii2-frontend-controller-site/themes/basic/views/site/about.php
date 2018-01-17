@@ -31,13 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h2>推荐扩展</h2>
     <ul>
-        <li>用户管理模块：wonail/yii2-module-account</li>
-        <li>WoCenter Gii模块：wonail/yii2-module-gii</li>
-        <li>系统通知模块：wonail/yii2-module-notification</li>
-        <li>运营管理模块：wonail/yii2-module-operate</li>
-        <li>通行证管理模块：wonail/yii2-module-passport</li>
-        <li>安全管理模块：wonail/yii2-module-security</li>
-        <li>后台管理员功能扩展：wonail/yii2-controller-admin</li>
+        <li>用户管理模块：wocenter/yii2-module-account</li>
+        <li>WoCenter Gii模块：wocenter/yii2-module-gii</li>
+        <li>系统通知模块：wocenter/yii2-module-notification</li>
+        <li>运营管理模块：wocenter/yii2-module-operate</li>
+        <li>通行证管理模块：wocenter/yii2-module-passport</li>
+        <li>安全管理模块：wocenter/yii2-module-security</li>
+        <li>后台管理员功能扩展：wocenter/yii2-controller-admin</li>
     </ul>
 
     <blockquote>

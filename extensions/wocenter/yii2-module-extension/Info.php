@@ -31,7 +31,7 @@ class Info extends ModularityInfo
      * @inheritdoc
      */
     protected $depends = [
-        'wonail/yii2-module-system:dev-master',
+        'wocenter/yii2-module-system:dev-master',
     ];
     
     /**
