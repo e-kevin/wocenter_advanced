@@ -1,7 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $model \wocenter\backend\modules\extension\models\Module */
-/* @var $runModuleList array */
+/* @var $runList array */
 /* @var $id string */
 /* @var $dependList array */
 
@@ -14,7 +14,7 @@ $this->params['navSelectPage'] = '/extension/module/index';
 
 $this->render('_form', [
     'model' => $model,
-    'runModuleList' => $runModuleList,
+    'runList' => $runList,
     'dependList' => $dependList,
 ])
 ?>

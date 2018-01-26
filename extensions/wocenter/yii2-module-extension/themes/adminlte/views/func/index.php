@@ -1,4 +1,6 @@
 <?php
+
+use wocenter\Wc;
 use wonail\adminlte\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
@@ -6,6 +8,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $dataProvider ArrayDataProvider */
 /* @var $app string */
+/* @var $runList array */
 
 $headerToolbar = '';
 // full_page:START
@@ -90,7 +93,23 @@ if ($this->context->isFullPageLoad()) {
                     'value' => function ($model) {
                         return $model['infoInstance']->isSystem;
                     },
-                    'label' => '系统扩展',
+                    'label' => '核心扩展',
+                ],
+                [
+                    'format' => 'html',
+                    'label' => '运行模式',
+                    'value' => function ($model) use ($runList) {
+                        switch ($model['run']) {
+                            case Wc::$service->getExtension()::RUN_MODULE_EXTENSION:
+                                return '<span class="text-danger">' . $runList[$model['run']] . '</span>';
+                                break;
+                            case Wc::$service->getExtension()::RUN_MODULE_DEVELOPER:
+                                return '<span class="text-warning">' . $runList[$model['run']] . '</span>';
+                                break;
+                            default:
+                                return '未安装';
+                        }
+                    },
                 ],
                 [
                     'attribute' => 'author',

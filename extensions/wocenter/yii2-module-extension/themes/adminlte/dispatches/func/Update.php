@@ -52,6 +52,7 @@ class Update extends Dispatch
             'model' => $model,
             'id' => $request->get('id'),
             'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
+            'runList' => Wc::$service->getExtension()->getRunList(),
         ])->display();
     }
     

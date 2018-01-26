@@ -1,13 +1,14 @@
 <?php
 
 use wocenter\backend\modules\extension\models\Module;
+use wocenter\Wc;
 use wonail\adminlte\grid\GridView;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $dataProvider ArrayDataProvider */
-/* @var $runModuleList array */
+/* @var $runList array */
 /* @var $app string */
 
 $headerToolbar = '';
@@ -81,18 +82,18 @@ if ($this->context->isFullPageLoad()) {
                     'value' => function ($model) {
                         return $model['infoInstance']->isSystem;
                     },
-                    'label' => '系统扩展',
+                    'label' => '核心扩展',
                 ],
                 [
                     'format' => 'html',
-                    'label' => '运行模块',
-                    'value' => function ($model) use ($runModuleList) {
+                    'label' => '运行模式',
+                    'value' => function ($model) use ($runList) {
                         switch ($model['run']) {
-                            case Module::RUN_MODULE_EXTENSION:
-                                return '<span class="text-danger">' . $runModuleList[$model['run']] . '</span>';
+                            case Wc::$service->getExtension()::RUN_MODULE_EXTENSION:
+                                return '<span class="text-danger">' . $runList[$model['run']] . '</span>';
                                 break;
-                            case Module::RUN_MODULE_DEVELOPER:
-                                return '<span class="text-warning">' . $runModuleList[$model['run']] . '</span>';
+                            case Wc::$service->getExtension()::RUN_MODULE_DEVELOPER:
+                                return '<span class="text-warning">' . $runList[$model['run']] . '</span>';
                                 break;
                             default:
                                 return '未安装';

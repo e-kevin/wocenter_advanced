@@ -50,7 +50,7 @@ class Update extends Dispatch
         
         return $this->assign([
             'model' => $model,
-            'runModuleList' => $model->getRunList(),
+            'runList' => Wc::$service->getExtension()->getRunList(),
             'id' => $request->get('id'),
             'dependList' => Wc::$service->getExtension()->getDependent()->getList($id),
         ])->display();

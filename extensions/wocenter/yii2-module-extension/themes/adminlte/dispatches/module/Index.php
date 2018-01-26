@@ -3,7 +3,6 @@
 namespace wocenter\backend\modules\extension\themes\adminlte\dispatches\module;
 
 use wocenter\backend\themes\adminlte\components\Dispatch;
-use wocenter\backend\modules\extension\models\Module;
 use wocenter\Wc;
 use Yii;
 use yii\data\ArrayDataProvider;
@@ -36,7 +35,7 @@ class Index extends Dispatch
         
         return $this->display('index', [
             'dataProvider' => $dataProvider,
-            'runModuleList' => (new Module())->getRunList(),
+            'runList' => Wc::$service->getExtension()->getRunList(),
             'app' => $app,
         ]);
     }

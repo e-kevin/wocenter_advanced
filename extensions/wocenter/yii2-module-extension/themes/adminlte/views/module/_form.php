@@ -8,7 +8,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model \wocenter\backend\modules\extension\models\Module */
 /* @var $form ActiveForm */
-/* @var $runModuleList array */
+/* @var $runList array */
 /* @var $dependList array */
 
 $footer = '<blockquote class="help-block">';
@@ -32,7 +32,7 @@ $footer .= '</blockquote>';
 <div class="jumbotron text-center">
     <h1><?= $model->infoInstance->name ?>
         <small class="text-danger">
-            <?php if ($model->is_system) : ?>系统扩展<?php endif; ?>
+            <?php if ($model->is_system) : ?>核心扩展<?php endif; ?>
         </small>
     </h1>
     <p class="lead"><?= $model->infoInstance->description ?></p>
@@ -47,8 +47,8 @@ echo $form->field($model, 'module_id')->textInput();
 if (!$model->infoInstance->isSystem) {
     echo $form->field($model, 'is_system')->radioList(['否', '是']);
 }
-// 运行模块列表
-echo $form->field($model, 'run')->radioList($runModuleList);
+// 运行模式列表
+echo $form->field($model, 'run')->radioList($runList);
 //echo $form->field($model, 'status')->radioList(\wocenter\libs\Constants::getStatusList());
 
 $btn[] = Html::submitButton(Yii::t('wocenter/app',

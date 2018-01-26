@@ -9,6 +9,7 @@ use yii\helpers\Html;
 /* @var $model \wocenter\backend\modules\extension\models\ModuleFunction */
 /* @var $form ActiveForm */
 /* @var $dependList array */
+/* @var $runList array */
 
 $footer = '<blockquote class="help-block">';
 $footer .= '<p>系统扩展：安装后无法卸载</p>';
@@ -30,7 +31,7 @@ $footer .= '</blockquote>';
     <div class="jumbotron text-center">
         <h1><?= $model->infoInstance->name ?>
             <small class="text-danger">
-                <?php if ($model->is_system) : ?>系统扩展<?php endif; ?>
+                <?php if ($model->is_system) : ?>核心扩展<?php endif; ?>
             </small>
         </h1>
         <p class="lead"><?= $model->infoInstance->description ?></p>
@@ -49,6 +50,9 @@ if (!$model->infoInstance->isSystem) {
     echo $form->field($model, 'is_system')->radioList(['否', '是']);
 }
 
+// 运行模式列表
+echo $form->field($model, 'run')->radioList($runList);
+
 $btn[] = Html::submitButton(Yii::t('wocenter/app',
     ($this->context->action->id == 'install' && $model->infoInstance->canInstall)
         ? 'Install'
@@ -60,8 +64,6 @@ echo Html::tag('div', implode("\n", $btn), [
     'class' => 'text-center',
 ]);
 ?>
-
-
     <hr>
 
     <div class="row-fluid">

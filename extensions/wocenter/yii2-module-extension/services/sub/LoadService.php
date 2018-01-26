@@ -130,8 +130,8 @@ class LoadService extends Service
         return Wc::getOrSet(self::CACHE_ALL_EXTENSION_ALIASES, function () {
             $config = [];
             foreach ($this->getConfigFiles() as $uniqueName => $row) {
-                $namespacePrefix = '@' . str_replace('\\', '/', rtrim($row['autoload']['psr-4'][0], '\\'));
-                $config[$namespacePrefix] = $row['autoload']['psr-4'][1];
+                $namespace = '@' . str_replace('\\', '/', rtrim($row['autoload']['psr-4'][0], '\\'));
+                $config[$namespace] = $row['autoload']['psr-4'][1];
             }
             
             return $config;
@@ -325,10 +325,10 @@ class LoadService extends Service
             ], function () {
                 $config = [];
                 foreach ($this->getConfigFiles() as $uniqueName => $row) {
-                    $namespacePrefix = $row['autoload']['psr-4'][0];
+                    $namespace = $row['autoload']['psr-4'][0];
                     $realPath = $row['autoload']['psr-4'][1];
                     // 扩展详情类
-                    $infoClass = $namespacePrefix . 'Info';
+                    $infoClass = $namespace . 'Info';
                     if (is_subclass_of($infoClass, FunctionInfo::className())) {
                         $files = FileHelper::findFiles($realPath . DIRECTORY_SEPARATOR . 'controllers', [
                             'only' => ['*Controller.php'],
@@ -338,7 +338,7 @@ class LoadService extends Service
                         }
                         $controllerFile = $files[0];
                         $controllerName = substr($controllerFile, strrpos($controllerFile, DIRECTORY_SEPARATOR) + 1, -4);
-                        $class = $namespacePrefix . 'controllers\\' . $controllerName;
+                        $class = $namespace . 'controllers\\' . $controllerName;
                         $controllerId = Inflector::camel2id(substr($controllerName, 0, -10));
                         if (!class_exists($class)) {
                             continue;
@@ -373,7 +373,7 @@ class LoadService extends Service
                             }
                         }
                     } else if (is_subclass_of($infoClass, ModularityInfo::className())) {
-                        $class = $namespacePrefix . 'Module';
+                        $class = $namespace . 'Module';
                         if (!class_exists($class)) {
                             continue;
                         }
@@ -494,8 +494,8 @@ class LoadService extends Service
     public function generateConfig()
     {
         // 加载扩展别名，确保能够正确加载系统扩展
-        foreach ($this->loadAliases() as $namespacePrefix => $realPath) {
-            Yii::setAlias($namespacePrefix, $realPath);
+        foreach ($this->loadAliases() as $namespace => $realPath) {
+            Yii::setAlias($namespace, $realPath);
         }
         // 所有已经安装的扩展
         $allInstalledConfig = $this->getAllConfigByApp(true);
@@ -534,6 +534,48 @@ class LoadService extends Service
         }
         
         return $config;
+    }
+    
+    /**
+     * 根据命名空间获取扩展名称
+     *
+     * @param string $namespace 命名空间
+     *
+     * @return string
+     */
+    public function getExtensionNameByNamespace($namespace)
+    {
+        $namespace = str_replace('/', '\\', $namespace);
+        $has = '';
+        foreach ($this->getConfigFiles() as $uniqueName => $config) {
+            if (strpos($namespace, $config['autoload']['psr-4'][0]) !== false) {
+                $has = $uniqueName;
+                break;
+            }
+        }
+        
+        return $has;
+    }
+    
+    /**
+     * 根据扩展命名空间获取扩展实际目录路径
+     *
+     * @param string $namespace 命名空间
+     *
+     * @return string
+     */
+    public function getExtensionPathByNamespace($namespace)
+    {
+        $path = $namespace = str_replace('/', '\\', $namespace);
+        foreach ($this->getConfigFiles() as $uniqueName => $config) {
+            if (strpos($namespace, $config['autoload']['psr-4'][0]) !== false) {
+                $path = StringHelper::replace($namespace, $config['autoload']['psr-4'][0], $config['autoload']['psr-4'][1] . '/');
+                $path = str_replace('\\', '/', $path);
+                break;
+            }
+        }
+        
+        return $path;
     }
     
 }

@@ -13,7 +13,7 @@ class m170822_065758_create_table_module extends Migration
             'module_id' => $this->char(15)->notNull()->comment('模块ID'),
             'is_system' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('系统扩展 0:否 1:是'),
             'status' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('状态 0:禁用 1:启用'),
-            'run' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('运行版本 0:扩展 1:开发者'),
+            'run' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('运行模式 0:系统扩展 1:开发者扩展'),
         ], $this->tableOptions . $this->buildTableComment('系统模块'));
         
         $this->addPrimaryKey('unique', '{{%viMJHk_module}}', 'id');

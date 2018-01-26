@@ -19,6 +19,16 @@ class ExtensionService extends Service
 {
     
     /**
+     * @var integer 运行系统扩展
+     */
+    const RUN_MODULE_EXTENSION = 0;
+    
+    /**
+     * @var integer 运行开发者扩展
+     */
+    const RUN_MODULE_DEVELOPER = 1;
+    
+    /**
      * @inheritdoc
      */
     public function getId()
@@ -74,6 +84,19 @@ class ExtensionService extends Service
     public function getDependent()
     {
         return $this->getSubService('dependent');
+    }
+    
+    /**
+     * 获取运行模式列表
+     *
+     * @return array
+     */
+    public function getRunList()
+    {
+        return [
+            self::RUN_MODULE_DEVELOPER => '开发者扩展',
+            self::RUN_MODULE_EXTENSION => '系统扩展',
+        ];
     }
     
 }

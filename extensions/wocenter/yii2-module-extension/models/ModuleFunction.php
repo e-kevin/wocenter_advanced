@@ -14,6 +14,7 @@ use wocenter\db\ActiveRecord;
  * @property string $controller_id
  * @property integer $is_system
  * @property integer $status
+ * @property integer $run
  */
 class ModuleFunction extends ActiveRecord
 {
@@ -51,7 +52,7 @@ class ModuleFunction extends ActiveRecord
     {
         return [
             [['id', 'controller_id', 'extension_name'], 'required'],
-            [['is_system', 'status'], 'integer'],
+            [['is_system', 'status', 'run'], 'integer'],
             [['id', 'module_id', 'controller_id'], 'string', 'max' => 64],
             [['extension_name'], 'string', 'max' => 255],
         ];
@@ -67,8 +68,9 @@ class ModuleFunction extends ActiveRecord
             'extension_name' => '扩展名称',
             'module_id' => '模块ID',
             'controller_id' => '控制器ID',
-            'is_system' => '系统扩展',
+            'is_system' => '核心扩展',
             'status' => '状态',
+            'run' => '运行模式',
         ];
     }
     

@@ -20,16 +20,6 @@ class Module extends ActiveRecord
 {
     
     /**
-     * @var integer 运行扩展模块
-     */
-    const RUN_MODULE_EXTENSION = 0;
-    
-    /**
-     * @var integer 运行开发者模块
-     */
-    const RUN_MODULE_DEVELOPER = 1;
-    
-    /**
      * @var \wocenter\core\ModularityInfo 实例化模块信息类
      */
     public $infoInstance;
@@ -78,9 +68,9 @@ class Module extends ActiveRecord
             'id' => 'ID',
             'extension_name' => '扩展名称',
             'module_id' => '模块ID',
-            'is_system' => '系统模块',
+            'is_system' => '核心扩展',
             'status' => '状态',
-            'run' => '运行模块',
+            'run' => '运行模式',
         ];
     }
     
@@ -92,19 +82,6 @@ class Module extends ActiveRecord
     public function getInstalled()
     {
         return self::find()->asArray()->indexBy('extension_name')->all();
-    }
-    
-    /**
-     * 获取运行版本列表
-     *
-     * @return array
-     */
-    public function getRunList()
-    {
-        return [
-            self::RUN_MODULE_DEVELOPER => '开发者模块',
-            self::RUN_MODULE_EXTENSION => '扩展模块',
-        ];
     }
     
 }

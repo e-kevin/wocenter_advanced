@@ -11,6 +11,7 @@ use wocenter\db\ActiveRecord;
  * @property string $extension_name
  * @property integer $is_system
  * @property integer $status
+ * @property integer $run
  */
 class Theme extends ActiveRecord
 {
@@ -35,7 +36,7 @@ class Theme extends ActiveRecord
     {
         return [
             [['id', 'extension_name'], 'required'],
-            [['is_system', 'status'], 'integer'],
+            [['is_system', 'status', 'run'], 'integer'],
             [['id'], 'string', 'max' => 64],
             [['extension_name'], 'string', 'max' => 255],
         ];
@@ -51,6 +52,7 @@ class Theme extends ActiveRecord
             'extension_name' => '扩展名称',
             'is_system' => '系统扩展',
             'status' => '状态',
+            'run' => '运行模式',
         ];
     }
     

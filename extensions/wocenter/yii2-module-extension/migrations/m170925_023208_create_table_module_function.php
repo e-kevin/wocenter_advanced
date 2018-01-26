@@ -13,6 +13,7 @@ class m170925_023208_create_table_module_function extends Migration
             'controller_id' => $this->char(64)->notNull()->comment('控制器ID'),
             'is_system' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('系统扩展 0:否 1:是'),
             'status' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('状态 0:禁用 1:启用'),
+            'run' => $this->boolean()->unsigned()->notNull()->defaultValue(0)->comment('运行模式 0:系统扩展 1:开发者扩展'),
         ], $this->tableOptions . $this->buildTableComment('系统功能扩展'));
     
         $this->addPrimaryKey('unique', '{{%viMJHk_module_function}}', 'id');

@@ -155,8 +155,8 @@ class ModularityService extends Service
             $model->module_id = $infoInstance->id;
             $model->is_system = intval($infoInstance->isSystem);
             $model->run = isset($allModuleParts['developer'][$extensionName])
-                ? $model::RUN_MODULE_DEVELOPER
-                : $model::RUN_MODULE_EXTENSION;
+                ? $this->service::RUN_MODULE_DEVELOPER
+                : $this->service::RUN_MODULE_EXTENSION;
             $model->status = 1;
         }
         

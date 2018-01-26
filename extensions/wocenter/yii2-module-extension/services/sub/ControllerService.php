@@ -63,10 +63,12 @@ class ControllerService extends Service
                 $infoInstance->canUninstall = !$infoInstance->isSystem;
                 
                 $config['status'] = $exists['status'];
+                $config['run'] = $exists['run'];
             } else {
                 // 数据库不存在数据则可以进行安装
                 $infoInstance->canInstall = true;
                 $config['status'] = 0; // 未安装则为禁用状态
+                $config['run'] = -1; // 未安装则没有正在运行的模块
             }
         }
         
@@ -114,6 +116,7 @@ class ControllerService extends Service
             $model->controller_id = $model->infoInstance->id;
             $model->is_system = intval($infoInstance->isSystem);
             $model->status = 1;
+            
         }
         
         return $model;

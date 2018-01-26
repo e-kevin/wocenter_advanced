@@ -36,6 +36,7 @@ class Index extends Dispatch
         return $this->display('index', [
             'dataProvider' => $dataProvider,
             'app' => $app,
+            'runList' => Wc::$service->getExtension()->getRunList(),
         ]);
     }
     
